@@ -3,8 +3,9 @@
 
 # compiled output
 /dist
+**/dist
 /node_modules
-/package-lock.json
+**/node_modules
 
 # Logs
 logs
@@ -37,3 +38,9 @@ lerna-debug.log*
 # !.vscode/tasks.json
 # !.vscode/launch.json
 # !.vscode/extensions.json
+
+# Worktrees
+.worktrees/
+
+# Turborepo
+.turbo/

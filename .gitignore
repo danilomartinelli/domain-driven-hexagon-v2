@@ -3,8 +3,9 @@
 
 # compiled output
 /dist
+**/dist
 /node_modules
-/package-lock.json
+**/node_modules
 
 # Logs
 logs
@@ -40,3 +41,6 @@ lerna-debug.log*
 
 # Worktrees
 .worktrees/
+
+# Turborepo
+.turbo/

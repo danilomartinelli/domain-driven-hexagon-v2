@@ -1,5 +1,5 @@
 import { QueryHandler } from '@nestjs/cqrs';
-import { Ok, Result } from 'oxide.ts';
+import { ok, Result } from 'neverthrow';
 import { PaginatedParams, PaginatedQueryBase, Paginated } from '@repo/core';
 import { InjectPool } from '@danilomartinelli/nestjs-slonik';
 import { DatabasePool, sql } from 'slonik';
@@ -52,7 +52,7 @@ export class FindUsersQueryHandler {
 
     const records = await this.pool.query(statement);
 
-    return Ok(
+    return ok(
       new Paginated({
         data: records.rows,
         count: records.rowCount,

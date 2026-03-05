@@ -18,7 +18,7 @@ importers:
         specifier: ^5
         version: 5.4.0(graphql@16.13.1)
       '@danilomartinelli/nestjs-slonik':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/nestjs-slonik
       '@nestjs/apollo':
         specifier: ^13.2.4
@@ -74,9 +74,9 @@ importers:
       nestjs-request-context:
         specifier: ^4.0.0
         version: 4.0.0(@nestjs/common@11.1.16(class-transformer@0.5.1)(class-validator@0.13.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))
-      oxide.ts:
-        specifier: ^1.0.5
-        version: 1.1.0
+      neverthrow:
+        specifier: ^8.2.0
+        version: 8.2.0
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -163,7 +163,7 @@ importers:
   packages/core:
     dependencies:
       '@danilomartinelli/nestjs-slonik':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../nestjs-slonik
       '@nestjs/common':
         specifier: ^11.1.16
@@ -198,9 +198,9 @@ importers:
       nestjs-request-context:
         specifier: ^4.0.0
         version: 4.0.0(@nestjs/common@11.1.16(class-transformer@0.5.1)(class-validator@0.13.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))
-      oxide.ts:
-        specifier: ^1.0.5
-        version: 1.1.0
+      neverthrow:
+        specifier: ^8.2.0
+        version: 8.2.0
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -1173,6 +1173,11 @@ packages:
 
   '@protobufjs/utf8@1.1.0':
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
+
+  '@rollup/rollup-linux-x64-gnu@4.59.0':
+    resolution: {integrity: sha512-3AHmtQq/ppNuUspKAlvA8HtLybkDflkMuLK4DPo77DfthRb71V84/c4MlWJXixZz4uruIH4uaa07IqoAkG64fg==}
+    cpu: [x64]
+    os: [linux]
 
   '@scarf/scarf@1.4.0':
     resolution: {integrity: sha512-xxeapPiUXdZAE3che6f3xogoJPeZgig6omHEy1rIY5WVsB3H2BHNnZH+gHG6x91SCWyQCzWGsuL2Hh3ClO5/qQ==}
@@ -3395,6 +3400,10 @@ packages:
     peerDependencies:
       '@nestjs/common': '*'
 
+  neverthrow@8.2.0:
+    resolution: {integrity: sha512-kOCT/1MCPAxY5iUV3wytNFUMUolzuwd/VF/1KCx7kf6CutrOsTie+84zTGTpgQycjvfLdBBdvBvFLqFD2c0wkQ==}
+    engines: {node: '>=18'}
+
   nice-try@1.0.5:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
 
@@ -3476,9 +3485,6 @@ packages:
   ora@5.4.1:
     resolution: {integrity: sha512-5b6Y85tPxZZ7QytO+BQzysW31HJku27cRIlkbAXaNx+BdcVi+LlRFmVXzeF6a7JCwJpyw5c4b+YSVImQIrBpuQ==}
     engines: {node: '>=10'}
-
-  oxide.ts@1.1.0:
-    resolution: {integrity: sha512-+MkqFRQVHEe/x4/cJ6KuYz2m2VpnoBi7aKLbttGYTxmpNZalQ2RbKH2HxyfsTqXJhjh9DYxulPWfQV/hWMmzCg==}
 
   p-each-series@2.2.0:
     resolution: {integrity: sha512-ycIL2+1V32th+8scbpTvyHNaHe02z0sjgh91XXjAk+ZeXoPN4Z46DVUnzdso0aX4KckKw0FNNFHdjZ2UsZvxiA==}
@@ -5559,7 +5565,7 @@ snapshots:
       '@types/istanbul-lib-coverage': 2.0.6
       collect-v8-coverage: 1.0.3
 
-  '@jest/test-sequencer@26.6.3(ts-node@10.9.2(@types/node@22.19.13)(typescript@5.9.3))':
+  '@jest/test-sequencer@26.6.3':
     dependencies:
       '@jest/test-result': 26.6.2
       graceful-fs: 4.2.11
@@ -5567,11 +5573,7 @@ snapshots:
       jest-runner: 26.6.3(ts-node@10.9.2(@types/node@22.19.13)(typescript@5.9.3))
       jest-runtime: 26.6.3(ts-node@10.9.2(@types/node@22.19.13)(typescript@5.9.3))
     transitivePeerDependencies:
-      - bufferutil
-      - canvas
       - supports-color
-      - ts-node
-      - utf-8-validate
 
   '@jest/test-sequencer@29.7.0':
     dependencies:
@@ -5891,6 +5893,9 @@ snapshots:
   '@protobufjs/pool@1.1.0': {}
 
   '@protobufjs/utf8@1.1.0': {}
+
+  '@rollup/rollup-linux-x64-gnu@4.59.0':
+    optional: true
 
   '@scarf/scarf@1.4.0': {}
 
@@ -7861,7 +7866,7 @@ snapshots:
   jest-config@26.6.3(ts-node@10.9.2(@types/node@22.19.13)(typescript@5.9.3)):
     dependencies:
       '@babel/core': 7.29.0
-      '@jest/test-sequencer': 26.6.3(ts-node@10.9.2(@types/node@22.19.13)(typescript@5.9.3))
+      '@jest/test-sequencer': 26.6.3
       '@jest/types': 26.6.2
       babel-jest: 26.6.3(@babel/core@7.29.0)
       chalk: 4.1.2
@@ -8747,6 +8752,10 @@ snapshots:
     dependencies:
       '@nestjs/common': 11.1.16(class-transformer@0.5.1)(class-validator@0.13.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
 
+  neverthrow@8.2.0:
+    optionalDependencies:
+      '@rollup/rollup-linux-x64-gnu': 4.59.0
+
   nice-try@1.0.5: {}
 
   node-abort-controller@3.1.1: {}
@@ -8844,8 +8853,6 @@ snapshots:
       log-symbols: 4.1.0
       strip-ansi: 6.0.1
       wcwidth: 1.0.1
-
-  oxide.ts@1.1.0: {}
 
   p-each-series@2.2.0: {}
 

@@ -43,7 +43,7 @@
     "jest-cucumber": "^3.0.1",
     "nanoid": "^3.3.4",
     "nestjs-request-context": "^4.0.0",
-    "oxide.ts": "^1.0.5",
+    "neverthrow": "^8.2.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.2.0",
     "slonik": "^48.12.3",

@@ -1,7 +1,7 @@
 import { UserRepositoryPort } from '@modules/user/database/user.repository.port';
 import { Address } from '@modules/user/domain/value-objects/address.value-object';
 import { CommandHandler } from '@nestjs/cqrs';
-import { Err, Ok, Result } from 'oxide.ts';
+import { err, ok, Result } from 'neverthrow';
 import { CreateUserCommand } from './create-user.command';
 import { UserAlreadyExistsError } from '@modules/user/domain/user.errors';
 import { AggregateID, ConflictException } from '@repo/core';
@@ -32,10 +32,10 @@ export class CreateUserService {
       /* Wrapping operation in a transaction to make sure
          that all domain events are processed atomically */
       await this.userRepo.transaction(async () => this.userRepo.insert(user));
-      return Ok(user.id);
+      return ok(user.id);
     } catch (error: any) {
       if (error instanceof ConflictException) {
-        return Err(new UserAlreadyExistsError(error));
+        return err(new UserAlreadyExistsError(error));
       }
       throw error;
     }

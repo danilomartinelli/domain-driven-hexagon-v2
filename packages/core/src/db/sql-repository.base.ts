@@ -9,10 +9,12 @@ import {
   DatabasePool,
   DatabaseTransactionConnection,
   IdentifierSqlToken,
+  PrimitiveValueExpression,
   QueryResult,
   QuerySqlToken,
   sql,
   UniqueIntegrityConstraintViolationError,
+  ValueExpression,
 } from 'slonik';
 import { ZodObject } from 'zod';
 import { LoggerPort } from '../ports/logger.port';
@@ -107,10 +109,10 @@ export abstract class SqlRepositoryBase<
       await this.writeQuery(query, entities);
     } catch (error) {
       if (error instanceof UniqueIntegrityConstraintViolationError) {
+        const cause = error.cause as (Error & { detail?: string }) | undefined;
+        const detail = cause?.detail ?? error.message;
         this.logger.debug(
-          `[${RequestContextService.getRequestId()}] ${
-            (error.cause as any)?.detail ?? error.message
-          }`,
+          `[${RequestContextService.getRequestId()}] ${detail}`,
         );
         throw new ConflictException('Record already exists', error);
       }
@@ -160,7 +162,7 @@ export abstract class SqlRepositoryBase<
   ): QuerySqlToken {
     // TODO: generate query from an entire array to insert multiple records at once
     const entries = Object.entries(models[0]);
-    const values: any = [];
+    const values: ValueExpression[] = [];
     const propertyNames: IdentifierSqlToken[] = [];
 
     entries.forEach((entry) => {
@@ -169,7 +171,7 @@ export abstract class SqlRepositoryBase<
         if (entry[1] instanceof Date) {
           values.push(sql.timestamp(entry[1]));
         } else {
-          values.push(entry[1]);
+          values.push(entry[1] as PrimitiveValueExpression);
         }
       }
     });

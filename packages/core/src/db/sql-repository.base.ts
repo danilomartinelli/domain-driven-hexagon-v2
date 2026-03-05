@@ -76,7 +76,7 @@ export abstract class SqlRepositoryBase<
 
   async delete(entity: Aggregate): Promise<boolean> {
     entity.validate();
-    const query = sql.unsafe`DELETE FROM ${sql.identifier([
+    const query = sql.type(this.schema)`DELETE FROM ${sql.identifier([
       this.tableName,
     ])} WHERE id = ${entity.id}`;
 
@@ -175,15 +175,14 @@ export abstract class SqlRepositoryBase<
       }
     });
 
-    const query = sql.unsafe`INSERT INTO ${sql.identifier([
+    const query = sql.type(this.schema)`INSERT INTO ${sql.identifier([
       this.tableName,
     ])} (${sql.join(propertyNames, sql.fragment`, `)}) VALUES (${sql.join(
       values,
       sql.fragment`, `,
     )})`;
 
-    const parsedQuery = query;
-    return parsedQuery;
+    return query;
   }
 
   /**

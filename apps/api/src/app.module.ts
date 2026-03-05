@@ -28,6 +28,7 @@ const interceptors = [
     RequestContextModule,
     SlonikModule.forRoot({
       connectionUri: postgresConnectionUri,
+      isGlobal: true,
     }),
     CqrsModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({

@@ -18,7 +18,7 @@ Update all packages across the monorepo, replace deprecated/broken libraries wit
 - **nestjs-slonik:** Remove abandoned package, create new public package `@danilomartinelli/nestjs-slonik`
 - **Migrations:** Remove `@slonik/migrator`, add Flyway via Docker
 - **oxide.ts → neverthrow:** Replace Result/Option types
-- **nanoid → uuid:** Use uuid (already a dependency) for ID generation
+- **nanoid → crypto.randomUUID:** Use Node.js built-in `crypto.randomUUID()` for ID generation
 - **Zod:** v3 → v4
 - **class-validator:** 0.13 → 0.15
 - **nestjs-console:** Remove (unmaintained, incompatible with NestJS 11)
@@ -152,7 +152,7 @@ Remove:
 | Package | From | To | Action |
 |---------|------|----|--------|
 | `oxide.ts` | 1 | - | Remove, replace with `neverthrow` |
-| `nanoid` | 3 | - | Remove, use `uuid` |
+| `nanoid` | 3 | - | Remove, use `crypto.randomUUID()` |
 | `zod` | 3.21 | 4 | Upgrade |
 | `class-validator` | 0.13 | 0.15 | Upgrade |
 | `uuid` | 9 | 11 | Upgrade (stay CJS-compatible) |

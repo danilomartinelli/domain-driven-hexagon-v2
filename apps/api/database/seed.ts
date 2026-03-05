@@ -1,4 +1,4 @@
-import { createPool } from 'slonik';
+import { createPool, sql } from 'slonik';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
@@ -22,7 +22,8 @@ async function runAll(): Promise<void> {
     const data = fs.readFileSync(path.resolve(directoryPath, file), {
       encoding: 'utf8',
     });
-    await pool.query({ sql: data, values: [], type: 'SLONIK_TOKEN_SQL' } as any);
+    const rawSql = Object.assign([data], { raw: [data] }) as TemplateStringsArray;
+    await pool.query(sql.unsafe(rawSql));
     console.log(`${file} seed executed`);
   }
 

@@ -1,14 +1,17 @@
 import type { ClientConfigurationInput } from 'slonik';
+import type { InjectionToken, ModuleMetadata } from '@nestjs/common';
 
 export interface SlonikModuleOptions {
   connectionUri: string;
   clientConfiguration?: ClientConfigurationInput;
+  isGlobal?: boolean;
 }
 
 export interface SlonikModuleAsyncOptions {
-  imports?: any[];
+  imports?: ModuleMetadata['imports'];
   useFactory: (
-    ...args: any[]
+    ...args: unknown[]
   ) => Promise<SlonikModuleOptions> | SlonikModuleOptions;
-  inject?: any[];
+  inject?: InjectionToken[];
+  isGlobal?: boolean;
 }

@@ -25,7 +25,7 @@ export class SlonikModule implements OnModuleDestroy {
   static forRoot(options: SlonikModuleOptions): DynamicModule {
     return {
       module: SlonikModule,
-      global: true,
+      global: options.isGlobal ?? false,
       providers: [
         {
           provide: SLONIK_POOL,
@@ -40,12 +40,12 @@ export class SlonikModule implements OnModuleDestroy {
   static forRootAsync(options: SlonikModuleAsyncOptions): DynamicModule {
     return {
       module: SlonikModule,
-      global: true,
+      global: options.isGlobal ?? false,
       imports: options.imports || [],
       providers: [
         {
           provide: SLONIK_POOL,
-          useFactory: async (...args: any[]) => {
+          useFactory: async (...args: unknown[]) => {
             const config = await options.useFactory(...args);
             return createPool(
               config.connectionUri,

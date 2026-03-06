@@ -1,6 +1,5 @@
 import { UserEntity } from '@modules/user/domain/user.entity';
 import { Address } from '@modules/user/domain/value-objects/address.value-object';
-import { UserRoles } from '@modules/user/domain/user.types';
 
 export interface CreateTestUserOverrides {
   email?: string;
@@ -9,7 +8,9 @@ export interface CreateTestUserOverrides {
   street?: string;
 }
 
-export function createTestAddress(overrides?: Partial<{ country: string; postalCode: string; street: string }>) {
+export function createTestAddress(
+  overrides?: Partial<{ country: string; postalCode: string; street: string }>,
+): Address {
   return new Address({
     country: overrides?.country ?? 'England',
     postalCode: overrides?.postalCode ?? '28566',
@@ -17,7 +18,9 @@ export function createTestAddress(overrides?: Partial<{ country: string; postalC
   });
 }
 
-export function createTestUser(overrides?: CreateTestUserOverrides): UserEntity {
+export function createTestUser(
+  overrides?: CreateTestUserOverrides,
+): UserEntity {
   return UserEntity.create({
     email: overrides?.email ?? 'test@example.com',
     address: createTestAddress(overrides),

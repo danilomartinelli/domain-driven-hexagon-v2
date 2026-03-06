@@ -48,7 +48,7 @@ module.exports = {
       from: { path: domainLayerPaths },
       to: {
         path: applicationLayerPaths,
-        pathNot: ['AppRequestContext\\.ts'],
+        pathNot: ['AppRequestContext'],
       },
     },
     {
@@ -194,7 +194,9 @@ module.exports = {
         'in your package.json i.e. bot as a devDependencies and in dependencies. This will cause ' +
         'maintenance problems later on.',
       severity: 'error',
-      from: {},
+      from: {
+        pathNot: ['packages/nestjs-slonik'],
+      },
       to: {
         moreThanOneDependencyType: true,
         // as it's pretty common to have a type import be a type only import
@@ -270,7 +272,9 @@ module.exports = {
         'other cases - maybe not so much. If the use of a peer dependency is intentional ' +
         'add an exception to your dependency-cruiser configuration.',
       severity: 'error',
-      from: {},
+      from: {
+        pathNot: ['packages/nestjs-slonik'],
+      },
       to: {
         dependencyTypes: ['npm-peer'],
       },

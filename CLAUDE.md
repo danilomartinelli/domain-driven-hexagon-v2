@@ -119,3 +119,27 @@ Provides base classes: `AggregateRoot`, `Entity`, `ValueObject`, `DomainEvent`, 
 - ESLint (flat config): `@typescript-eslint/explicit-module-boundary-types: error`, no property setters, no non-null assertions
 - `@typescript-eslint/no-explicit-any` is allowed (off)
 - TypeScript strict mode enabled
+
+## Critical Rules (always apply)
+
+- **Never throw exceptions for expected failures** — use `neverthrow` Result types (`ok()`, `err()`)
+- **Never import across layer boundaries** — domain cannot import from application/infrastructure/API
+- **Always use path aliases** — `@modules/*`, `@src/*`, `@repo/core`, `@tests/*`, `@config/*` (never relative `../../..`)
+- **Always create entities via static `create()` factory** — never call constructor directly from outside
+- **Always emit domain events** in entity `create()` and state-change methods
+
+## AI Guidance
+
+Detailed architectural patterns and conventions are in `.claude/rules/`:
+
+| Rule File                 | Covers                                                              |
+| ------------------------- | ------------------------------------------------------------------- |
+| `architecture.md`         | Layer boundaries, hexagonal constraints, cross-module communication |
+| `domain-layer.md`         | Entity, ValueObject, DomainEvent, error class patterns              |
+| `application-layer.md`    | Command/Query handlers, neverthrow Result types, event handlers     |
+| `infrastructure-layer.md` | Repository, Zod schemas, mapper, DI tokens                          |
+| `api-layer.md`            | Controllers, DTOs, error mapping, module structure                  |
+| `testing.md`              | Factories, BDD with jest-cucumber, integration tests                |
+| `imports.md`              | Path aliases and import conventions                                 |
+
+Scaffolding: use the `scaffold-module` skill (`.claude/skills/scaffold-module/`) to generate a full module skeleton.

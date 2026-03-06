@@ -110,7 +110,7 @@ Before we begin, here are the PROS and CONS of using a complete architecture lik
 
 # Diagram
 
-![Domain-Driven Hexagon](assets/images/DomainDrivenHexagon.png)
+![Domain-Driven Hexagon](apps/api/assets/images/DomainDrivenHexagon.png)
 <sup>Diagram is mostly based on [this one](https://github.com/hgraca/explicit-architecture-php#explicit-architecture-1) + others found online</sup>
 
 In short, data flow looks like this (from left to right):
@@ -1225,7 +1225,7 @@ You can also generate graphs like this:
 
 <details>
 <summary>Click to see dependency graph</summary>
- <img src="assets/dependency-graph.svg" alt="Dependency graph">
+ <img src="apps/api/assets/dependency-graph.svg" alt="Dependency graph">
 </details>
 <br>
 

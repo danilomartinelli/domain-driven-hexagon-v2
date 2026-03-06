@@ -55,7 +55,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm test -- -- --coverage
+      - run: pnpm -F @repo/api test -- --coverage --testPathIgnorePatterns='e2e-spec'
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

@@ -5,3 +5,6 @@ export * from "./matchers";
 
 // Generic factories
 export { createBaseEntityProps } from "./factories";
+
+// Fakes for unit testing
+export { InMemoryRepository, FakeEventBus } from "./fakes";

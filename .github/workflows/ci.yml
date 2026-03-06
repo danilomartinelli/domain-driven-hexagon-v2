@@ -55,12 +55,55 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm -F @repo/api test -- --coverage --passWithNoTests --testPathIgnorePatterns='e2e-spec'
+      - run: pnpm -F @repo/core test -- --coverage --passWithNoTests
+      - run: pnpm -F @repo/api test -- --coverage --passWithNoTests
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: apps/api/tests/coverage
           fail_ci_if_error: false
+
+  test-integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        ports:
+          - 5433:5432
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ddh_tests
+        options: >-
+          --health-cmd "pg_isready -U user -d ddh_tests"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Run Flyway migrations
+        run: >-
+          docker run --rm --network host
+          -v ${{ github.workspace }}/apps/api/database/migrations:/flyway/sql
+          redgate/flyway:latest
+          -url=jdbc:postgresql://localhost:5433/ddh_tests
+          -user=user -password=password migrate
+      - name: Run integration tests
+        run: pnpm -F @repo/api test:integration
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5433
+          DB_USERNAME: user
+          DB_PASSWORD: password
+          DB_NAME: ddh_tests
 
   test-e2e:
     name: E2E Tests

@@ -25,7 +25,13 @@ RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nestjs
 COPY --from=installer /app/node_modules ./node_modules
 COPY --from=installer /app/apps/api/node_modules ./apps/api/node_modules
 COPY --from=installer /app/apps/api/dist ./apps/api/dist
-COPY --from=installer /app/packages/ ./packages/
+COPY --from=installer /app/apps/api/package.json ./apps/api/package.json
+COPY --from=installer /app/packages/core/dist ./packages/core/dist
+COPY --from=installer /app/packages/core/package.json ./packages/core/package.json
+COPY --from=installer /app/packages/infra/dist ./packages/infra/dist
+COPY --from=installer /app/packages/infra/package.json ./packages/infra/package.json
+COPY --from=installer /app/packages/nestjs-slonik/dist ./packages/nestjs-slonik/dist
+COPY --from=installer /app/packages/nestjs-slonik/package.json ./packages/nestjs-slonik/package.json
 
 USER nestjs
 EXPOSE 3000

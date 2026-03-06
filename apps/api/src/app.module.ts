@@ -35,7 +35,6 @@ const interceptors = [
       level: get('LOG_LEVEL').default('info').asString(),
       prettyPrint: get('LOG_PRETTY').default('false').asBool(),
     }),
-    HealthModule.forRoot(SLONIK_POOL),
 
     // Existing
     EventEmitterModule.forRoot(),
@@ -44,6 +43,7 @@ const interceptors = [
       connectionUri: postgresConnectionUri,
       isGlobal: true,
     }),
+    HealthModule.forRoot(SLONIK_POOL),
     CqrsModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

@@ -1,10 +1,6 @@
 # Domain-Driven Hexagon
 
-**Check out my other repositories**:
-
-- [Backend best practices](https://github.com/Sairyss/backend-best-practices) - Best practices, tools and guidelines for backend development.
-- [System Design Patterns](https://github.com/Sairyss/system-design-patterns) - list of topics and resources related to distributed systems, system design, microservices, scalability and performance, etc.
-- [Full Stack starter template](https://github.com/Sairyss/fullstack-starter-template) - template for full stack applications based on TypeScript, React, Vite, ChakraUI, tRPC, Fastify, Prisma, zod, etc.
+This project is a fork of [domain-driven-hexagon](https://github.com/Sairyss/domain-driven-hexagon) by [Sairyss](https://github.com/Sairyss). The original repository provides an excellent guide on DDD, hexagonal architecture and best practices. This fork evolves the codebase with updated dependencies, a pnpm/Turborepo monorepo structure, and production-ready tooling.
 
 ---
 

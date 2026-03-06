@@ -88,11 +88,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - name: Run Flyway migrations
-        uses: docker://redgate/flyway
-        with:
-          args: -url=jdbc:postgresql://postgres:5432/ddh_tests -user=user -password=password migrate
-        env:
-          FLYWAY_LOCATIONS: filesystem:apps/api/database/migrations
+        run: >-
+          docker run --rm --network host
+          -v ${{ github.workspace }}/apps/api/database/migrations:/flyway/sql
+          redgate/flyway:latest
+          -url=jdbc:postgresql://localhost:5433/ddh_tests
+          -user=user -password=password migrate
       - name: Run E2E tests
         run: pnpm -F @repo/api test:e2e
         env:

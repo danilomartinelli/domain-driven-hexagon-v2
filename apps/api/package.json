@@ -10,6 +10,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint \"{src,tests}/**/*.ts\" --fix",
     "test": "jest --config .jestrc.json --runInBand",
     "test:watch": "jest --watch",

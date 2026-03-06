@@ -4,13 +4,30 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e",
     "format": "turbo run format",
-    "dev": "turbo run start:dev"
+    "dev": "turbo run start:dev",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "apps/api/**/*.{ts,js,mjs}": [
+      "pnpm -C apps/api exec eslint --fix",
+      "prettier --write"
+    ],
+    "packages/**/*.{ts,js}": [
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
   },
   "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.2",
+    "prettier": "^3.8.1",
     "turbo": "^2"
   },
   "packageManager": "pnpm@9.15.4",

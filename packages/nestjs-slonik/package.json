@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "build": "tsc --build",
+    "typecheck": "tsc --noEmit",
     "lint": "echo 'no lint configured yet'"
   },
   "peerDependencies": {

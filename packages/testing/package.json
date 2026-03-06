@@ -1,0 +1,17 @@
+{
+  "name": "@repo/testing",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {},
+  "dependencies": {
+    "@repo/core": "workspace:*",
+    "neverthrow": "^8.2.0",
+    "slonik": "^48.12.3"
+  },
+  "devDependencies": {
+    "@types/jest": "29.5.14",
+    "typescript": "^5.9.3"
+  }
+}

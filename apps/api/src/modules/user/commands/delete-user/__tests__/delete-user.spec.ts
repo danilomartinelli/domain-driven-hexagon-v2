@@ -2,7 +2,8 @@ import { defineFeature, loadFeature } from 'jest-cucumber';
 import { DeleteUserCommand, DeleteUserService } from '../delete-user.service';
 import { NotFoundException } from '@repo/core';
 import { Result } from 'neverthrow';
-import { createTestUser } from '@tests/factories';
+import { UserEntity } from '@modules/user/domain/user.entity';
+import { Address } from '@modules/user/domain/value-objects/address.value-object';
 
 const feature = loadFeature(
   'src/modules/user/commands/delete-user/__tests__/delete-user.feature',
@@ -34,7 +35,14 @@ defineFeature(feature, (test) => {
 
   test('Successfully deleting an existing user', ({ given, when, then }) => {
     given(/^a user exists with ID "(.*)"$/, () => {
-      const user = createTestUser();
+      const user = UserEntity.create({
+        email: 'test@example.com',
+        address: new Address({
+          country: 'England',
+          postalCode: '28566',
+          street: 'Grand Avenue',
+        }),
+      });
       mockRepo.findOneById.mockResolvedValue(user);
     });
 
@@ -82,7 +90,14 @@ defineFeature(feature, (test) => {
     let thrownError: Error | undefined;
 
     given(/^a user exists with ID "(.*)"$/, () => {
-      const user = createTestUser();
+      const user = UserEntity.create({
+        email: 'test@example.com',
+        address: new Address({
+          country: 'England',
+          postalCode: '28566',
+          street: 'Grand Avenue',
+        }),
+      });
       mockRepo.findOneById.mockResolvedValue(user);
     });
 

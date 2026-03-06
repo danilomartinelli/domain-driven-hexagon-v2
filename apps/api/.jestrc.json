@@ -3,9 +3,13 @@
   "rootDir": ".",
   "testEnvironment": "node",
   "coverageDirectory": "./tests/coverage",
-  "setupFilesAfterEnv": ["./tests/setup/jestSetupAfterEnv.ts"],
-  "globalSetup": "<rootDir>/tests/setup/jestGlobalSetup.ts",
+  "setupFilesAfterEnv": ["./tests/setup/jest-unit-setup.ts"],
   "testRegex": ".spec.ts$",
+  "testPathIgnorePatterns": [
+    "\\.integration-spec\\.ts$",
+    "\\.e2e-spec\\.ts$",
+    "node_modules"
+  ],
   "moduleNameMapper": {
     "@src/(.*)$": "<rootDir>/src/$1",
     "@modules/(.*)$": "<rootDir>/src/modules/$1",
@@ -16,11 +20,14 @@
   },
   "transformIgnorePatterns": [],
   "transform": {
-    "^.+\\.(t|j)s$": ["ts-jest", {
-      "tsconfig": {
-        "allowJs": true,
-        "esModuleInterop": true
+    "^.+\\.(t|j)s$": [
+      "ts-jest",
+      {
+        "tsconfig": {
+          "allowJs": true,
+          "esModuleInterop": true
+        }
       }
-    }]
+    ]
   }
 }

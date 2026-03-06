@@ -1,8 +1,5 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
-import {
-  DeleteUserCommand,
-  DeleteUserService,
-} from '../delete-user.service';
+import { DeleteUserCommand, DeleteUserService } from '../delete-user.service';
 import { NotFoundException } from '@repo/core';
 import { Result } from 'neverthrow';
 import { createTestUser } from '@tests/factories';
@@ -35,11 +32,7 @@ defineFeature(feature, (test) => {
     service = new DeleteUserService(mockRepo as any);
   });
 
-  test('Successfully deleting an existing user', ({
-    given,
-    when,
-    then,
-  }) => {
+  test('Successfully deleting an existing user', ({ given, when, then }) => {
     given(/^a user exists with ID "(.*)"$/, () => {
       const user = createTestUser();
       mockRepo.findOneById.mockResolvedValue(user);
@@ -60,11 +53,7 @@ defineFeature(feature, (test) => {
     });
   });
 
-  test('Failing to delete a non-existent user', ({
-    given,
-    when,
-    then,
-  }) => {
+  test('Failing to delete a non-existent user', ({ given, when, then }) => {
     given(/^no user exists with ID "(.*)"$/, () => {
       mockRepo.findOneById.mockResolvedValue(undefined);
     });
@@ -114,7 +103,7 @@ defineFeature(feature, (test) => {
 
     then('the unexpected error is propagated', () => {
       expect(thrownError).toBeDefined();
-      expect(thrownError!.message).toBe('DB connection lost');
+      expect((thrownError as Error).message).toBe('DB connection lost');
     });
   });
 });

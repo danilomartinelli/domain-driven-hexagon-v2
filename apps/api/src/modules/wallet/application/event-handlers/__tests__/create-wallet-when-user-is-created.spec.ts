@@ -20,11 +20,7 @@ defineFeature(feature, (test) => {
     );
   });
 
-  test('Wallet is created after user registration', ({
-    given,
-    when,
-    then,
-  }) => {
+  test('Wallet is created after user registration', ({ given, when, then }) => {
     given(
       /^a UserCreatedDomainEvent is received for user "(.*)"$/,
       (userId: string) => {
@@ -42,15 +38,12 @@ defineFeature(feature, (test) => {
       await handler.handle(event);
     });
 
-    then(
-      /^a wallet is created for user "(.*)"$/,
-      (userId: string) => {
-        expect(mockRepo.insert).toHaveBeenCalledTimes(1);
-        const insertedWallet = mockRepo.insert.mock.calls[0][0];
-        expect(insertedWallet.getProps().userId).toBe(userId);
-        expect(insertedWallet.getProps().balance).toBe(0);
-      },
-    );
+    then(/^a wallet is created for user "(.*)"$/, (userId: string) => {
+      expect(mockRepo.insert).toHaveBeenCalledTimes(1);
+      const insertedWallet = mockRepo.insert.mock.calls[0][0];
+      expect(insertedWallet.getProps().userId).toBe(userId);
+      expect(insertedWallet.getProps().balance).toBe(0);
+    });
   });
 
   test('Repository failure during wallet creation', ({
@@ -88,7 +81,7 @@ defineFeature(feature, (test) => {
 
     then('the error is propagated from the handler', () => {
       expect(thrownError).toBeDefined();
-      expect(thrownError!.message).toBe('DB unavailable');
+      expect((thrownError as Error).message).toBe('DB unavailable');
     });
   });
 });

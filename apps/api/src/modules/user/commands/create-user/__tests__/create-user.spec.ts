@@ -61,13 +61,10 @@ defineFeature(feature, (test) => {
       }
     });
 
-    and(
-      'a UserCreatedDomainEvent was published via the repository',
-      () => {
-        expect(mockRepo.transaction).toHaveBeenCalled();
-        expect(mockRepo.insert).toHaveBeenCalled();
-      },
-    );
+    and('a UserCreatedDomainEvent was published via the repository', () => {
+      expect(mockRepo.transaction).toHaveBeenCalled();
+      expect(mockRepo.insert).toHaveBeenCalled();
+    });
   });
 
   test('Failing to create a user with a duplicate email', ({
@@ -128,7 +125,7 @@ defineFeature(feature, (test) => {
 
     then('the unexpected error is propagated', () => {
       expect(thrownError).toBeDefined();
-      expect(thrownError!.message).toBe('Connection lost');
+      expect((thrownError as Error).message).toBe('Connection lost');
     });
   });
 });

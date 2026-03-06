@@ -808,15 +808,15 @@ Returning errors instead of throwing them adds some extra boilerplate code, but 
 
 Libraries you can use:
 
-- [oxide.ts](https://www.npmjs.com/package/oxide.ts) - this is a nice npm package if you want to use a Result object
+- [neverthrow](https://www.npmjs.com/package/neverthrow) - this is a nice npm package if you want to use a Result object
 - [@badrap/result](https://www.npmjs.com/package/@badrap/result) - alternative
 
 Example files:
 
 - [user.errors.ts](apps/api/src/modules/user/domain/user.errors.ts) - user errors
-- [create-user.service.ts](apps/api/src/modules/user/commands/create-user/create-user.service.ts) - notice how `Err(new UserAlreadyExistsError())` is returned instead of throwing it.
+- [create-user.service.ts](apps/api/src/modules/user/commands/create-user/create-user.service.ts) - notice how `err(new UserAlreadyExistsError())` is returned instead of throwing it.
 - [create-user.http.controller.ts](apps/api/src/modules/user/commands/create-user/create-user.http.controller.ts) - in a user http controller we match an error and decide what to do with it. If an error is `UserAlreadyExistsError` we throw a `Conflict Exception` which a user will receive as `409 - Conflict`. If an error is unknown we just throw it and our framework will return it to the user as `500 - Internal Server Error`.
-- [create-user.cli.controller.ts](apps/api/src/modules/user/commands/create-user/create-user.cli.controller.ts) - in a CLI controller we don't care about returning a correct status code so we just `.unwrap()` a result, which will just throw in case of an error.
+- [create-user.cli.controller.ts](apps/api/src/modules/user/commands/create-user/create-user.cli.controller.ts) - in a CLI controller we don't need to return HTTP status codes, so we just log the result or exit with an error code.
 - [exceptions](packages/core/src/exceptions) folder contains some generic app exceptions (not domain specific)
 
 Read more:
@@ -869,7 +869,7 @@ Contains `Controllers` and `Request`/`Response` DTOs (can also contain `Views`, 
 One controller per trigger type can be used to have a clearer separation. For example:
 
 - [create-user.http.controller.ts](apps/api/src/modules/user/commands/create-user/create-user.http.controller.ts) for http requests ([NestJS Controllers](https://docs.nestjs.com/controllers)),
-- [create-user.cli.controller.ts](apps/api/src/modules/user/commands/create-user/create-user.cli.controller.ts) for command line interface access ([NestJS Console](https://www.npmjs.com/package/nestjs-console))
+- [create-user.cli.controller.ts](apps/api/src/modules/user/commands/create-user/create-user.cli.controller.ts) for command line interface access ([nest-commander](https://www.npmjs.com/package/nest-commander))
 - [create-user.message.controller.ts](apps/api/src/modules/user/commands/create-user/create-user.message.controller.ts) for external messages ([NestJS Microservices](https://docs.nestjs.com/microservices/basics)).
 - etc.
 

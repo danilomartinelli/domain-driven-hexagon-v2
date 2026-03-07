@@ -43,7 +43,7 @@ const interceptors = [
       connectionUri: postgresConnectionUri,
       isGlobal: true,
     }),
-    HealthModule.forRoot(SLONIK_POOL),
+    HealthModule.forRoot(SLONIK_POOL, { version: '2.0.0' }),
     CqrsModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

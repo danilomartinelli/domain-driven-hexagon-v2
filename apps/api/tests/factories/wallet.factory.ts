@@ -1,5 +1,5 @@
 import { WalletEntity } from '@modules/wallet/domain/wallet.entity';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 
 export interface CreateTestWalletOverrides {
   userId?: string;

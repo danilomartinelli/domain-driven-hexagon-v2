@@ -10,7 +10,7 @@ import {
 import { UserDeletedDomainEvent } from './events/user-deleted.domain-event';
 import { UserRoleChangedDomainEvent } from './events/user-role-changed.domain-event';
 import { UserAddressUpdatedDomainEvent } from './events/user-address-updated.domain-event';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 
 export class UserEntity extends AggregateRoot<UserProps> {
   protected readonly _id: AggregateID;

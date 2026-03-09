@@ -6,7 +6,7 @@ import {
 import { err, ok, Result } from 'neverthrow';
 import { WalletCreatedDomainEvent } from './events/wallet-created.domain-event';
 import { WalletNotEnoughBalanceError } from './wallet.errors';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 
 export interface CreateWalletProps {
   userId: AggregateID;

@@ -41,6 +41,8 @@ export class CreateUserCliController extends CommandRunner {
     );
   }
 
+  // nest-commander requires @Option parse methods even for pass-through values.
+  // Validation is handled by class-validator on the CreateUserCommand DTO.
   @Option({
     flags: '-e, --email <email>',
     description: 'User email address',

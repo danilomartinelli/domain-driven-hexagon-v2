@@ -10,13 +10,13 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 
 export const walletSchema = z.object({
   id: z.string().min(1).max(255),
-  createdAt: z.preprocess((val: any) => new Date(val), z.date()),
-  updatedAt: z.preprocess((val: any) => new Date(val), z.date()),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
   balance: z.number().min(0).max(9999999),
   userId: z.string().min(1).max(255),
 });
 
-export type WalletModel = z.TypeOf<typeof walletSchema>;
+export type WalletModel = z.infer<typeof walletSchema>;
 
 @Injectable()
 export class WalletRepository

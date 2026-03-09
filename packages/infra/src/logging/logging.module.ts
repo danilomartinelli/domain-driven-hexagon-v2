@@ -1,6 +1,6 @@
 import { DynamicModule, Module } from "@nestjs/common";
 import { LoggerModule } from "nestjs-pino";
-import { randomUUID } from "crypto";
+import { randomUUID } from "node:crypto";
 import { LoggingOptions } from "./logging.types";
 
 @Module({})

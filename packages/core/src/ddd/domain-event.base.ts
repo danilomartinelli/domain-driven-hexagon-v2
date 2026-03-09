@@ -1,7 +1,7 @@
-import { randomUUID } from 'crypto';
-import { ArgumentNotProvidedException } from '../exceptions';
-import { Guard } from '../guard';
-import { RequestContextService } from '../application/context/AppRequestContext';
+import { randomUUID } from "node:crypto";
+import { ArgumentNotProvidedException } from "../exceptions";
+import { Guard } from "../guard";
+import { RequestContextService } from "../application/context/AppRequestContext";
 
 type DomainEventMetadata = {
   /** Timestamp when this domain event occurred */
@@ -22,7 +22,7 @@ type DomainEventMetadata = {
   readonly userId?: string;
 };
 
-export type DomainEventProps<T> = Omit<T, 'id' | 'metadata'> & {
+export type DomainEventProps<T> = Omit<T, "id" | "metadata"> & {
   aggregateId: string;
   metadata?: DomainEventMetadata;
 };
@@ -38,7 +38,7 @@ export abstract class DomainEvent {
   constructor(props: DomainEventProps<unknown>) {
     if (Guard.isEmpty(props)) {
       throw new ArgumentNotProvidedException(
-        'DomainEvent props should not be empty',
+        "DomainEvent props should not be empty",
       );
     }
     this.id = randomUUID();

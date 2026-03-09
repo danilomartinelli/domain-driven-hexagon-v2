@@ -1,9 +1,9 @@
-import { RequestContextService } from '../application/context/AppRequestContext';
-import { ArgumentNotProvidedException } from '../exceptions';
-import { Guard } from '../guard';
-import { randomUUID } from 'crypto';
+import { RequestContextService } from "../application/context/AppRequestContext";
+import { ArgumentNotProvidedException } from "../exceptions";
+import { Guard } from "../guard";
+import { randomUUID } from "node:crypto";
 
-export type CommandProps<T> = Omit<T, 'id' | 'metadata'> & Partial<Command>;
+export type CommandProps<T> = Omit<T, "id" | "metadata"> & Partial<Command>;
 
 type CommandMetadata = {
   /** ID for correlation purposes (for commands that
@@ -39,7 +39,7 @@ export class Command {
   constructor(props: CommandProps<unknown>) {
     if (Guard.isEmpty(props)) {
       throw new ArgumentNotProvidedException(
-        'Command props should not be empty',
+        "Command props should not be empty",
       );
     }
     const ctx = RequestContextService.getContext();

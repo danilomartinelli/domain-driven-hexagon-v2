@@ -5,7 +5,7 @@ import {
   CallHandler,
 } from "@nestjs/common";
 import { Observable, tap } from "rxjs";
-import { randomUUID } from "crypto";
+import { randomUUID } from "node:crypto";
 import { RequestContextService } from "./AppRequestContext";
 
 @Injectable()

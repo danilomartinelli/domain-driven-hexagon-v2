@@ -42,17 +42,17 @@ import { EventEmitter2 } from "@nestjs/event-emitter";
 
 // 1. Zod schema for runtime validation
 export const userSchema = z.object({
-  id: z.string().uuid(),
-  createdAt: z.preprocess((val: any) => new Date(val), z.date()),
-  updatedAt: z.preprocess((val: any) => new Date(val), z.date()),
-  email: z.string().email(),
+  id: z.uuid(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  email: z.email(),
   country: z.string().min(1).max(255),
   postalCode: z.string().min(1).max(20),
   street: z.string().min(1).max(255),
-  role: z.nativeEnum(UserRoles),
+  role: z.enum(UserRoles),
 });
 
-export type UserModel = z.TypeOf<typeof userSchema>;
+export type UserModel = z.infer<typeof userSchema>;
 
 // 2. Repository class
 @Injectable()
@@ -95,7 +95,7 @@ export class UserRepository
 Key rules:
 
 - Schema naming: `<name>Schema` constant, `<name>Model` type alias
-- Always use `z.preprocess((val: any) => new Date(val), z.date())` for date fields
+- Always use `z.coerce.date()` for date fields
 - Use `sql.type(schema)` for all queries (Slonik + Zod runtime validation)
 - Use `writeQuery()` for mutations — it handles validation and event publishing
 - Export schema and model type (query handlers import them for read queries)

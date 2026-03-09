@@ -113,6 +113,8 @@ module.exports = {
         pathNot: [
           'src/modules/([^/]+)/.*\\.module\\.ts$',
           '\\.(spec|test|e2e-spec|integration-spec)\\.(ts|js)$',
+          // Auth module is allowed to import from user module (orchestrates user creation and login)
+          'src/modules/auth/',
         ],
       },
       to: {

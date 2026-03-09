@@ -68,5 +68,6 @@ const projectors: Provider[] = [UserWalletSummaryProjector];
     ...sagaHandlers,
     ...projectors,
   ],
+  exports: [...repositories, ...mappers],
 })
 export class UserModule {}

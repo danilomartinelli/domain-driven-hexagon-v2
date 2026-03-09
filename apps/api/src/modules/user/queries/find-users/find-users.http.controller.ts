@@ -8,11 +8,13 @@ import { FindUsersQuery } from './find-users.query-handler';
 import { Paginated, PaginatedQueryRequestDto, ResponseBase } from '@repo/core';
 import { UserPaginatedResponseDto } from '../../dtos/user.paginated.response.dto';
 import { UserModel } from '../../database/user.schema';
+import { Public } from '@src/infrastructure/auth/public.decorator';
 
 @Controller(routesV1.version)
 export class FindUsersHttpController {
   constructor(private readonly queryBus: QueryBus) {}
 
+  @Public()
   @Get(routesV1.user.root)
   @ApiOperation({ summary: 'Find users' })
   @ApiResponse({

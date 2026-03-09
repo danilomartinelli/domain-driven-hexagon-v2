@@ -11,11 +11,13 @@ import { DeleteUserCommand } from './delete-user.command';
 import { Result } from 'neverthrow';
 import { NotFoundException, ApiErrorResponse } from '@repo/core';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Public } from '@src/infrastructure/auth/public.decorator';
 
 @Controller(routesV1.version)
 export class DeleteUserHttpController {
   constructor(private readonly commandBus: CommandBus) {}
 
+  @Public()
   @ApiOperation({ summary: 'Delete a user' })
   @ApiResponse({
     description: 'User deleted',

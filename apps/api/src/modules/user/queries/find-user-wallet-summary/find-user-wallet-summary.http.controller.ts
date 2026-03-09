@@ -11,11 +11,13 @@ import { Result } from 'neverthrow';
 import { routesV1 } from '@config/app.routes';
 import { FindUserWalletSummaryQuery } from './find-user-wallet-summary.query-handler';
 import { UserWalletSummaryReadModel } from '../../read-models/user-wallet-summary.read-model';
+import { Public } from '@src/infrastructure/auth/public.decorator';
 
 @Controller(routesV1.version)
 export class FindUserWalletSummaryHttpController {
   constructor(private readonly queryBus: QueryBus) {}
 
+  @Public()
   @Get(`${routesV1.user.root}/:id/wallet-summary`)
   @ApiOperation({ summary: 'Get user wallet summary (read model)' })
   @ApiResponse({ status: HttpStatus.OK })

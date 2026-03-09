@@ -4,11 +4,14 @@ import { SlonikModule, SLONIK_POOL } from '@danilomartinelli/nestjs-slonik';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { UserModule } from '@modules/user/user.module';
 import { WalletModule } from '@modules/wallet/wallet.module';
+import { AuthDomainModule } from '@modules/auth/auth.module';
 import { RequestContextModule } from 'nestjs-request-context';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
 import { ContextInterceptor, ExceptionInterceptor } from '@repo/core';
 import { SecurityModule, LoggingModule, HealthModule } from '@repo/infra';
 import { AuthModule } from '@src/infrastructure/auth/auth.module';
+import { GqlAuthGuard } from '@src/infrastructure/auth/gql-auth.guard';
+import { RolesGuard } from '@src/infrastructure/auth/roles.guard';
 import { postgresConnectionUri } from './configs/database.config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -47,6 +50,17 @@ const interceptors = [
   },
 ];
 
+const guards = [
+  {
+    provide: APP_GUARD,
+    useClass: GqlAuthGuard,
+  },
+  {
+    provide: APP_GUARD,
+    useClass: RolesGuard,
+  },
+];
+
 @Module({
   imports: [
     // Infrastructure
@@ -82,8 +96,9 @@ const interceptors = [
     // Modules
     UserModule,
     WalletModule,
+    AuthDomainModule,
   ],
   controllers: [],
-  providers: [...interceptors],
+  providers: [...interceptors, ...guards],
 })
 export class AppModule {}

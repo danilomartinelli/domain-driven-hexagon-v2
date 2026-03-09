@@ -336,12 +336,18 @@ importers:
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
       sanitize-html:
         specifier: ^2.17.1
         version: 2.17.1
       slonik:
         specifier: ^48.12.3
         version: 48.12.3
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
     devDependencies:
       "@nestjs/testing":
         specifier: ^11.1.16

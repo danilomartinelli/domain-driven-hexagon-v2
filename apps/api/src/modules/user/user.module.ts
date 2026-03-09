@@ -17,11 +17,14 @@ import { SagaRepository } from './database/saga.repository';
 import { SagaMapper } from './application/sagas/saga.mapper';
 import { UserRegistrationSagaHandler } from './application/sagas/saga-event-handlers';
 import { UserWalletSummaryProjector } from './application/projections/user-wallet-summary.projector';
+import { FindUserWalletSummaryQueryHandler } from './queries/find-user-wallet-summary/find-user-wallet-summary.query-handler';
+import { FindUserWalletSummaryHttpController } from './queries/find-user-wallet-summary/find-user-wallet-summary.http.controller';
 
 const httpControllers = [
   CreateUserHttpController,
   DeleteUserHttpController,
   FindUsersHttpController,
+  FindUserWalletSummaryHttpController,
 ];
 
 const messageControllers = [CreateUserMessageController];
@@ -35,7 +38,10 @@ const graphqlResolvers: Provider[] = [
 
 const commandHandlers: Provider[] = [CreateUserService, DeleteUserService];
 
-const queryHandlers: Provider[] = [FindUsersQueryHandler];
+const queryHandlers: Provider[] = [
+  FindUsersQueryHandler,
+  FindUserWalletSummaryQueryHandler,
+];
 
 const mappers: Provider[] = [UserMapper, SagaMapper];
 

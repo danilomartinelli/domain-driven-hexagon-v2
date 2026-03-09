@@ -8,6 +8,7 @@ import { RequestContextModule } from 'nestjs-request-context';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ContextInterceptor, ExceptionInterceptor } from '@repo/core';
 import { SecurityModule, LoggingModule, HealthModule } from '@repo/infra';
+import { AuthModule } from '@src/infrastructure/auth/auth.module';
 import { postgresConnectionUri } from './configs/database.config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -69,6 +70,9 @@ const interceptors = [
       plugins: [...protection.plugins],
       validationRules: [...protection.validationRules],
     }),
+
+    // Auth
+    AuthModule,
 
     // Modules
     UserModule,

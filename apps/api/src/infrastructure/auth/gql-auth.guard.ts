@@ -20,7 +20,10 @@ export class GqlAuthGuard extends AuthGuard('jwt') {
   }
 
   getRequest(context: ExecutionContext): any {
-    const ctx = GqlExecutionContext.create(context);
-    return ctx.getContext().req;
+    if (context.getType() === 'http') {
+      return context.switchToHttp().getRequest();
+    }
+    const gqlContext = GqlExecutionContext.create(context);
+    return gqlContext.getContext().req;
   }
 }

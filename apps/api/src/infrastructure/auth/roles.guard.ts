@@ -21,10 +21,18 @@ export class RolesGuard implements CanActivate {
     );
     if (!requiredRoles) return true;
 
-    const ctx = GqlExecutionContext.create(context);
-    const user = ctx.getContext().req?.user;
+    const request = this.getRequest(context);
+    const user = request?.user;
     if (!user) return false;
 
     return requiredRoles.includes(user.role);
+  }
+
+  private getRequest(context: ExecutionContext): any {
+    if (context.getType() === 'http') {
+      return context.switchToHttp().getRequest();
+    }
+    const gqlContext = GqlExecutionContext.create(context);
+    return gqlContext.getContext().req;
   }
 }

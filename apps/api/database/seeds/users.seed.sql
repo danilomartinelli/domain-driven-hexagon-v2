@@ -7,7 +7,8 @@ INSERT INTO
     country,
     "postalCode",
     street,
-    "role"
+    "role",
+    "passwordHash"
   )
 VALUES
   (
@@ -18,5 +19,7 @@ VALUES
     'England',
     '24312',
     'Road Avenue',
-    'guest'
-  );
+    'guest',
+    ''
+  )
+ON CONFLICT ("id") DO NOTHING;

@@ -93,6 +93,8 @@ const guards = [
     // Existing
     EventEmitterModule.forRoot(),
     RequestContextModule,
+    // isGlobal: true makes the database pool available to all modules without
+    // explicit imports. Domain modules are scoped and import only what they need.
     SlonikModule.forRoot({
       connectionUri: postgresConnectionUri,
       isGlobal: true,

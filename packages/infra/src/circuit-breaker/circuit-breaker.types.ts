@@ -1,5 +1,7 @@
 export const CIRCUIT_BREAKER_OPTIONS = Symbol("CIRCUIT_BREAKER_OPTIONS");
+export const CIRCUIT_BREAKER_SERVICE = Symbol("CIRCUIT_BREAKER_SERVICE");
 
+/** Configuration options for the CircuitBreakerModule (opossum). */
 export interface CircuitBreakerOptions {
   /** Timeout in milliseconds after which a request is considered failed. Default: 10000 (10s) */
   timeout?: number;

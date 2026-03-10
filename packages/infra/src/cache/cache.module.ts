@@ -1,8 +1,7 @@
 import { DynamicModule, Module } from "@nestjs/common";
-import { CACHE_PORT } from "./cache.port";
 import { MemoryCacheAdapter } from "./memory-cache.adapter";
 import { RedisCacheAdapter } from "./redis-cache.adapter";
-import { CacheOptions, CACHE_OPTIONS } from "./cache.types";
+import { CACHE_PORT, CacheOptions, CACHE_OPTIONS } from "./cache.types";
 
 @Module({})
 export class CacheModule {

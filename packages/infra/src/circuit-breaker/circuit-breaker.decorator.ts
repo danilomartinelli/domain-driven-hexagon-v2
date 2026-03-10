@@ -1,18 +1,6 @@
 import CircuitBreaker from "opossum";
 import { CircuitBreakerService } from "./circuit-breaker.service";
-
-/**
- * Symbol used to store a reference to the CircuitBreakerService
- * on the host class instance. Set this in the constructor of classes
- * that use the @UseCircuitBreaker decorator:
- *
- * ```ts
- * constructor(private readonly cbService: CircuitBreakerService) {
- *   (this as any)[CIRCUIT_BREAKER_SERVICE] = cbService;
- * }
- * ```
- */
-export const CIRCUIT_BREAKER_SERVICE = Symbol("CIRCUIT_BREAKER_SERVICE");
+import { CIRCUIT_BREAKER_SERVICE } from "./circuit-breaker.types";
 
 /**
  * Method decorator that wraps the decorated method's execution

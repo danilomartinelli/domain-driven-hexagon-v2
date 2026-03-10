@@ -1,6 +1,6 @@
 import { DynamicModule, Module } from "@nestjs/common";
-import { NOTIFICATION_PORT } from "./notification.port";
 import {
+  NOTIFICATION_PORT,
   NotificationOptions,
   NOTIFICATION_OPTIONS,
 } from "./notification.types";

@@ -1,7 +1,8 @@
 import { Test } from "@nestjs/testing";
 import { EventEmitter2, EventEmitterModule } from "@nestjs/event-emitter";
 import { EventBusModule } from "../event-bus.module";
-import { EVENT_BUS_PORT, EventBusPort } from "../event-bus.port";
+import { EventBusPort } from "../event-bus.port";
+import { EVENT_BUS_PORT } from "../event-bus.types";
 import { InMemoryEventBusAdapter } from "../in-memory.adapter";
 
 describe("EventBusModule (in-memory)", () => {

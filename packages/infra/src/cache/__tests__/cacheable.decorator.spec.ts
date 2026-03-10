@@ -1,4 +1,5 @@
-import { Cacheable, CACHE_SERVICE } from "../cacheable.decorator";
+import { Cacheable } from "../cacheable.decorator";
+import { CACHE_SERVICE } from "../cache.types";
 import { CachePort } from "../cache.port";
 
 function createMockCachePort(): jest.Mocked<CachePort> {

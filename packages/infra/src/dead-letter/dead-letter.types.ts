@@ -1,5 +1,6 @@
 export const DEAD_LETTER_OPTIONS = Symbol("DEAD_LETTER_OPTIONS");
 
+/** Configuration options for the DeadLetterModule. */
 export interface DeadLetterOptions {
   /** Maximum number of retry attempts before marking as exhausted. Default: 5 */
   maxAttempts?: number;

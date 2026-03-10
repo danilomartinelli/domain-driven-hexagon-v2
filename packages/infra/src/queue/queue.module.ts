@@ -1,7 +1,6 @@
 import { DynamicModule, Module } from "@nestjs/common";
 import { BullMqAdapter } from "./bullmq.adapter";
-import { QUEUE_PORT } from "./queue.port";
-import { QueueOptions, QUEUE_OPTIONS } from "./queue.types";
+import { QUEUE_PORT, QueueOptions, QUEUE_OPTIONS } from "./queue.types";
 
 @Module({})
 export class QueueModule {

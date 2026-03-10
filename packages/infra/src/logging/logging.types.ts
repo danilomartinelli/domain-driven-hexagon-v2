@@ -1,3 +1,4 @@
+/** Configuration options for the LoggingModule (Pino-based). */
 export interface LoggingOptions {
   /** Pino log level. Default: 'info' */
   level?: string;

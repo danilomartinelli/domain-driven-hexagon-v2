@@ -4,5 +4,3 @@ export interface StoragePort {
   delete(key: string): Promise<void>;
   getSignedUrl(key: string, expiresInSeconds: number): Promise<string>;
 }
-
-export const STORAGE_PORT = Symbol("STORAGE_PORT");

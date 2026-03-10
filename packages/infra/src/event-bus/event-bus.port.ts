@@ -5,5 +5,3 @@ export interface EventBusPort {
     handler: (payload: unknown) => Promise<void>,
   ): void;
 }
-
-export const EVENT_BUS_PORT = Symbol("EVENT_BUS_PORT");

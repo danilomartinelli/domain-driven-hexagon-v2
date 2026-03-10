@@ -15,5 +15,3 @@ export interface QueuePort {
     delay: number,
   ): Promise<string>;
 }
-
-export const QUEUE_PORT = Symbol("QUEUE_PORT");

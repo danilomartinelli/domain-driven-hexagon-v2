@@ -1,12 +1,7 @@
 import { DynamicModule, Module } from "@nestjs/common";
-import { EVENT_BUS_PORT } from "./event-bus.port";
+import { EVENT_BUS_PORT, EventBusModuleOptions } from "./event-bus.types";
 import { InMemoryEventBusAdapter } from "./in-memory.adapter";
-import { RedisPubSubAdapter, RedisPubSubOptions } from "./redis-pubsub.adapter";
-
-export interface EventBusModuleOptions {
-  adapter: "in-memory" | "redis";
-  redis?: RedisPubSubOptions;
-}
+import { RedisPubSubAdapter } from "./redis-pubsub.adapter";
 
 @Module({})
 export class EventBusModule {

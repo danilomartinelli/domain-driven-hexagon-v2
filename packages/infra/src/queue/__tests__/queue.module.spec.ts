@@ -1,6 +1,6 @@
 import { Test } from "@nestjs/testing";
 import { QueueModule } from "../queue.module";
-import { QUEUE_PORT } from "../queue.port";
+import { QUEUE_PORT } from "../queue.types";
 import { BullMqAdapter } from "../bullmq.adapter";
 
 // Mock ioredis to avoid real connections in unit tests

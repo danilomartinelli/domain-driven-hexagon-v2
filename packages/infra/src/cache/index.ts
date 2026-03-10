@@ -1,8 +1,13 @@
 export { CacheModule } from "./cache.module";
-export { CachePort, CACHE_PORT } from "./cache.port";
+export type { CachePort } from "./cache.port";
 export { MemoryCacheAdapter } from "./memory-cache.adapter";
 export { RedisCacheAdapter } from "./redis-cache.adapter";
-export { Cacheable, CACHE_SERVICE } from "./cacheable.decorator";
+export { Cacheable } from "./cacheable.decorator";
 export { HttpCacheInterceptor } from "./http-cache.interceptor";
-export { CACHE_OPTIONS, type CacheOptions } from "./cache.types";
+export {
+  CACHE_PORT,
+  CACHE_OPTIONS,
+  CACHE_SERVICE,
+  type CacheOptions,
+} from "./cache.types";
 export type { CacheableOptions } from "./cacheable.decorator";

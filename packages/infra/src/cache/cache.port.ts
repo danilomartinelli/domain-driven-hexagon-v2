@@ -4,5 +4,3 @@ export interface CachePort {
   del(key: string): Promise<void>;
   invalidatePattern(pattern: string): Promise<void>;
 }
-
-export const CACHE_PORT = Symbol("CACHE_PORT");

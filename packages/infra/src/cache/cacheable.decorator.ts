@@ -1,17 +1,5 @@
 import { CachePort } from "./cache.port";
-
-/**
- * Symbol used to store a reference to the CachePort
- * on the host class instance. Set this in the constructor of classes
- * that use the @Cacheable decorator:
- *
- * ```ts
- * constructor(@Inject(CACHE_PORT) cacheService: CachePort) {
- *   (this as any)[CACHE_SERVICE] = cacheService;
- * }
- * ```
- */
-export const CACHE_SERVICE = Symbol("CACHE_SERVICE");
+import { CACHE_SERVICE } from "./cache.types";
 
 export interface CacheableOptions {
   /** Cache key template, e.g. 'users:{0}' where {0} is replaced with the first argument */

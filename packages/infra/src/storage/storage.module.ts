@@ -1,6 +1,5 @@
 import { DynamicModule, Module } from "@nestjs/common";
-import { STORAGE_PORT } from "./storage.port";
-import { StorageOptions, STORAGE_OPTIONS } from "./storage.types";
+import { STORAGE_PORT, StorageOptions, STORAGE_OPTIONS } from "./storage.types";
 import { LocalStorageAdapter } from "./local-storage.adapter";
 import { S3StorageAdapter } from "./s3-storage.adapter";
 

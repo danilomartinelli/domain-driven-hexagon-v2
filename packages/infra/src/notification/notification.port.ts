@@ -8,5 +8,3 @@ export interface NotificationPayload {
 export interface NotificationPort {
   send(notification: NotificationPayload): Promise<void>;
 }
-
-export const NOTIFICATION_PORT = Symbol("NOTIFICATION_PORT");

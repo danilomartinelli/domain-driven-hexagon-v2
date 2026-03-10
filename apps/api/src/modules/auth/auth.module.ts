@@ -24,6 +24,7 @@ import { RefreshTokenService } from './commands/refresh-token/refresh-token.serv
 import { LogoutService } from './commands/logout/logout.service';
 import { RefreshTokenRepository } from './database/refresh-token.repository';
 import { REFRESH_TOKEN_REPOSITORY } from './auth.di-tokens';
+import { TokenService } from './application/token.service';
 import { AuthModule } from '@src/infrastructure/auth/auth.module';
 import { UserModule } from '@modules/user/user.module';
 
@@ -48,6 +49,6 @@ const repositories = [
 @Module({
   imports: [CqrsModule, AuthModule, UserModule],
   controllers: [...httpControllers],
-  providers: [...commandHandlers, ...repositories],
+  providers: [...commandHandlers, ...repositories, TokenService],
 })
 export class AuthDomainModule {}

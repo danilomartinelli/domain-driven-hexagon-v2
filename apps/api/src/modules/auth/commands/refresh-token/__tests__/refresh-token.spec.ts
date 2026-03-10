@@ -11,13 +11,13 @@ const feature = loadFeature(
 defineFeature(feature, (test) => {
   let service: RefreshTokenService;
   let mockUserRepo: { findOneById: jest.Mock };
-  let mockJwtService: { sign: jest.Mock };
   let mockRefreshTokenRepo: {
     findByTokenHash: jest.Mock;
     revokeByTokenHash: jest.Mock;
     insert: jest.Mock;
     transaction: jest.Mock;
   };
+  let mockTokenService: { generateTokens: jest.Mock };
   let result: Result<any, TokenInvalidError>;
 
   beforeEach(() => {
@@ -30,17 +30,23 @@ defineFeature(feature, (test) => {
         }),
       }),
     };
-    mockJwtService = { sign: jest.fn().mockReturnValue('new-access-token') };
     mockRefreshTokenRepo = {
       findByTokenHash: jest.fn(),
       revokeByTokenHash: jest.fn().mockResolvedValue(undefined),
       insert: jest.fn().mockResolvedValue(undefined),
       transaction: jest.fn((handler: () => Promise<any>) => handler()),
     };
+    mockTokenService = {
+      generateTokens: jest.fn().mockResolvedValue({
+        accessToken: 'new-access-token',
+        refreshToken: 'new-refresh-token',
+        expiresIn: 3600,
+      }),
+    };
     service = new RefreshTokenService(
       mockUserRepo as any,
-      mockJwtService as any,
       mockRefreshTokenRepo as any,
+      mockTokenService as any,
     );
   });
 

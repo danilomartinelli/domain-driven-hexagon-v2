@@ -1,24 +1,24 @@
 import { CommandHandler } from '@nestjs/cqrs';
 import { Inject } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { err, ok, Result } from 'neverthrow';
-import { createHash, randomUUID } from 'crypto';
+import { createHash } from 'crypto';
 import { RefreshTokenCommand } from './refresh-token.command';
 import { REFRESH_TOKEN_REPOSITORY } from '../../auth.di-tokens';
 import { RefreshTokenRepositoryPort } from '../../database/refresh-token.repository.port';
 import { TokenInvalidError } from '../../domain/auth.errors';
-import { AuthTokens } from '../register/register.service';
+import { AuthTokens } from '../../domain/auth.types';
 import { USER_REPOSITORY } from '@modules/user/user.di-tokens';
 import { UserRepositoryPort } from '@modules/user/database/user.repository.port';
+import { TokenService } from '../../application/token.service';
 
 @CommandHandler(RefreshTokenCommand)
 export class RefreshTokenService {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepo: UserRepositoryPort,
-    private readonly jwtService: JwtService,
     @Inject(REFRESH_TOKEN_REPOSITORY)
     private readonly refreshTokenRepo: RefreshTokenRepositoryPort,
+    private readonly tokenService: TokenService,
   ) {}
 
   async execute(
@@ -39,38 +39,17 @@ export class RefreshTokenService {
       return err(new TokenInvalidError());
     }
 
-    // Generate new tokens
+    // Revoke old token and generate new tokens atomically
     const props = user.getProps();
-    const accessToken = this.jwtService.sign({
-      sub: props.id,
-      email: props.email,
-      role: props.role,
-    });
-
-    const newRefreshToken = randomUUID();
-    const newTokenHash = createHash('sha256')
-      .update(newRefreshToken)
-      .digest('hex');
-    const now = new Date();
-
-    // Revoke old token and insert new one atomically to prevent replay attacks
-    await this.refreshTokenRepo.transaction(async () => {
+    const tokens = await this.refreshTokenRepo.transaction(async () => {
       await this.refreshTokenRepo.revokeByTokenHash(tokenHash);
-      await this.refreshTokenRepo.insert({
-        id: randomUUID(),
-        createdAt: now,
-        updatedAt: now,
-        userId: existingToken.userId,
-        tokenHash: newTokenHash,
-        expiresAt: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000), // 7 days
-        revokedAt: null,
-      });
+      return this.tokenService.generateTokens(
+        props.id,
+        props.email,
+        props.role,
+      );
     });
 
-    return ok({
-      accessToken,
-      refreshToken: newRefreshToken,
-      expiresIn: 3600,
-    });
+    return ok(tokens);
   }
 }

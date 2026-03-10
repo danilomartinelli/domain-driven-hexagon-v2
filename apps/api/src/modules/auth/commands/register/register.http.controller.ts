@@ -14,7 +14,7 @@ import { RegisterCommand } from './register.command';
 import { RegisterRequestDto } from './register.request.dto';
 import { AuthTokensResponseDto } from '../../dtos/auth-tokens.response.dto';
 import { UserAlreadyExistsError } from '@modules/user/domain/user.errors';
-import { AuthTokens } from './register.service';
+import { AuthTokens } from '../../domain/auth.types';
 import { Public } from '@src/infrastructure/auth/public.decorator';
 
 @Controller(routesV1.version)

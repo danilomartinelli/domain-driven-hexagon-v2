@@ -1,25 +1,20 @@
 import { CommandHandler } from '@nestjs/cqrs';
 import { Inject } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { err, ok, Result } from 'neverthrow';
-import { randomUUID, createHash } from 'crypto';
 import { LoginCommand } from './login.command';
 import { HashedPassword } from '../../domain/value-objects/hashed-password.value-object';
 import { InvalidCredentialsError } from '../../domain/auth.errors';
-import { REFRESH_TOKEN_REPOSITORY } from '../../auth.di-tokens';
-import { RefreshTokenRepositoryPort } from '../../database/refresh-token.repository.port';
 import { UserRepositoryPort } from '@modules/user/database/user.repository.port';
 import { USER_REPOSITORY } from '@modules/user/user.di-tokens';
-import { AuthTokens } from '../register/register.service';
+import { TokenService } from '../../application/token.service';
+import { AuthTokens } from '../../domain/auth.types';
 
 @CommandHandler(LoginCommand)
 export class LoginService {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepo: UserRepositoryPort,
-    private readonly jwtService: JwtService,
-    @Inject(REFRESH_TOKEN_REPOSITORY)
-    private readonly refreshTokenRepo: RefreshTokenRepositoryPort,
+    private readonly tokenService: TokenService,
   ) {}
 
   async execute(
@@ -39,31 +34,11 @@ export class LoginService {
       return err(new InvalidCredentialsError());
     }
 
-    const tokens = await this.generateTokens(props.id, props.email, props.role);
+    const tokens = await this.tokenService.generateTokens(
+      props.id,
+      props.email,
+      props.role,
+    );
     return ok(tokens);
-  }
-
-  private async generateTokens(
-    userId: string,
-    email: string,
-    role: string,
-  ): Promise<AuthTokens> {
-    const accessToken = this.jwtService.sign({ sub: userId, email, role });
-
-    const refreshToken = randomUUID();
-    const tokenHash = createHash('sha256').update(refreshToken).digest('hex');
-    const now = new Date();
-
-    await this.refreshTokenRepo.insert({
-      id: randomUUID(),
-      createdAt: now,
-      updatedAt: now,
-      userId,
-      tokenHash,
-      expiresAt: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000), // 7 days
-      revokedAt: null,
-    });
-
-    return { accessToken, refreshToken, expiresIn: 3600 };
   }
 }

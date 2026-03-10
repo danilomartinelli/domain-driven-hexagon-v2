@@ -14,7 +14,7 @@ import { RefreshTokenCommand } from './refresh-token.command';
 import { RefreshTokenRequestDto } from './refresh-token.request.dto';
 import { AuthTokensResponseDto } from '../../dtos/auth-tokens.response.dto';
 import { TokenInvalidError } from '../../domain/auth.errors';
-import { AuthTokens } from '../register/register.service';
+import { AuthTokens } from '../../domain/auth.types';
 import { Public } from '@src/infrastructure/auth/public.decorator';
 
 @Controller(routesV1.version)

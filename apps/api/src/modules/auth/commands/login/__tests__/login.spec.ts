@@ -12,8 +12,7 @@ const feature = loadFeature(
 defineFeature(feature, (test) => {
   let service: LoginService;
   let mockUserRepo: { findOneByEmail: jest.Mock };
-  let mockJwtService: { sign: jest.Mock };
-  let mockRefreshTokenRepo: { insert: jest.Mock };
+  let mockTokenService: { generateTokens: jest.Mock };
   let result: Result<any, InvalidCredentialsError>;
   let validPasswordHash: string;
 
@@ -26,17 +25,14 @@ defineFeature(feature, (test) => {
     mockUserRepo = {
       findOneByEmail: jest.fn(),
     };
-    mockJwtService = {
-      sign: jest.fn().mockReturnValue('mock-access-token'),
+    mockTokenService = {
+      generateTokens: jest.fn().mockResolvedValue({
+        accessToken: 'mock-access-token',
+        refreshToken: 'mock-refresh-token',
+        expiresIn: 3600,
+      }),
     };
-    mockRefreshTokenRepo = {
-      insert: jest.fn().mockResolvedValue(undefined),
-    };
-    service = new LoginService(
-      mockUserRepo as any,
-      mockJwtService as any,
-      mockRefreshTokenRepo as any,
-    );
+    service = new LoginService(mockUserRepo as any, mockTokenService as any);
   });
 
   test('Successfully logging in', ({ given, when, then }) => {

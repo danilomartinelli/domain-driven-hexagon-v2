@@ -11,24 +11,23 @@ const feature = loadFeature(
 defineFeature(feature, (test) => {
   let service: RegisterService;
   let mockCommandBus: { execute: jest.Mock };
-  let mockJwtService: { sign: jest.Mock };
-  let mockRefreshTokenRepo: { insert: jest.Mock };
+  let mockTokenService: { generateTokens: jest.Mock };
   let result: Result<any, UserAlreadyExistsError>;
 
   beforeEach(() => {
     mockCommandBus = {
       execute: jest.fn().mockResolvedValue(ok('generated-user-id')),
     };
-    mockJwtService = {
-      sign: jest.fn().mockReturnValue('mock-access-token'),
-    };
-    mockRefreshTokenRepo = {
-      insert: jest.fn().mockResolvedValue(undefined),
+    mockTokenService = {
+      generateTokens: jest.fn().mockResolvedValue({
+        accessToken: 'mock-access-token',
+        refreshToken: 'mock-refresh-token',
+        expiresIn: 3600,
+      }),
     };
     service = new RegisterService(
       mockCommandBus as any,
-      mockJwtService as any,
-      mockRefreshTokenRepo as any,
+      mockTokenService as any,
     );
   });
 

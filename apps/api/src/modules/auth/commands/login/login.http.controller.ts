@@ -14,7 +14,7 @@ import { LoginCommand } from './login.command';
 import { LoginRequestDto } from './login.request.dto';
 import { AuthTokensResponseDto } from '../../dtos/auth-tokens.response.dto';
 import { InvalidCredentialsError } from '../../domain/auth.errors';
-import { AuthTokens } from '../register/register.service';
+import { AuthTokens } from '../../domain/auth.types';
 import { Public } from '@src/infrastructure/auth/public.decorator';
 
 @Controller(routesV1.version)

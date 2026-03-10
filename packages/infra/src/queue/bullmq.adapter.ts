@@ -1,9 +1,7 @@
 import { Injectable, Logger, OnModuleDestroy, Inject } from "@nestjs/common";
 import { Queue, type ConnectionOptions } from "bullmq";
 import { QueuePort } from "./queue.port";
-import { EnqueueOptions, QueueOptions } from "./queue.types";
-
-export const QUEUE_OPTIONS = "QUEUE_OPTIONS";
+import { EnqueueOptions, QueueOptions, QUEUE_OPTIONS } from "./queue.types";
 
 @Injectable()
 export class BullMqAdapter implements QueuePort, OnModuleDestroy {

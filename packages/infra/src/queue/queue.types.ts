@@ -1,3 +1,5 @@
+export const QUEUE_OPTIONS = Symbol("QUEUE_OPTIONS");
+
 export interface QueueOptions {
   redisHost: string;
   redisPort: number;

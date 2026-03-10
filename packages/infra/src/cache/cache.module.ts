@@ -2,7 +2,7 @@ import { DynamicModule, Module } from "@nestjs/common";
 import { CACHE_PORT } from "./cache.port";
 import { MemoryCacheAdapter } from "./memory-cache.adapter";
 import { RedisCacheAdapter } from "./redis-cache.adapter";
-import { CacheOptions } from "./cache.types";
+import { CacheOptions, CACHE_OPTIONS } from "./cache.types";
 
 @Module({})
 export class CacheModule {
@@ -14,7 +14,7 @@ export class CacheModule {
       global: true,
       providers: [
         {
-          provide: "CACHE_OPTIONS",
+          provide: CACHE_OPTIONS,
           useValue: resolvedOptions,
         },
         {
@@ -25,7 +25,7 @@ export class CacheModule {
             }
             return new MemoryCacheAdapter(opts);
           },
-          inject: ["CACHE_OPTIONS"],
+          inject: [CACHE_OPTIONS],
         },
       ],
       exports: [CACHE_PORT],

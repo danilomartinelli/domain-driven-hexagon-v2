@@ -2,9 +2,7 @@ import { Inject, Injectable, Logger } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import { randomUUID } from "crypto";
 import { DeadLetterRepository } from "./dead-letter.repository";
-import { DeadLetterOptions } from "./dead-letter.types";
-
-export const DEAD_LETTER_OPTIONS = "DEAD_LETTER_OPTIONS";
+import { DeadLetterOptions, DEAD_LETTER_OPTIONS } from "./dead-letter.types";
 
 @Injectable()
 export class DeadLetterService {

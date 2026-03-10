@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from "@nestjs/common";
 import { FeatureFlagService } from "./feature-flag.service";
 import { FeatureFlagGuard } from "./feature-flag.guard";
-import { FeatureFlagOptions } from "./feature-flag.types";
+import { FeatureFlagOptions, FEATURE_FLAG_OPTIONS } from "./feature-flag.types";
 
 @Module({})
 export class FeatureFlagModule {
@@ -13,7 +13,7 @@ export class FeatureFlagModule {
       global: true,
       providers: [
         {
-          provide: "FEATURE_FLAG_OPTIONS",
+          provide: FEATURE_FLAG_OPTIONS,
           useValue: resolvedOptions,
         },
         FeatureFlagService,

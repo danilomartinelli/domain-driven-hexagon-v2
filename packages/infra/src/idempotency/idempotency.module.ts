@@ -2,7 +2,7 @@ import { DynamicModule, Module } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { IdempotencyRepository } from "./idempotency.repository";
 import { IdempotencyInterceptor } from "./idempotency.interceptor";
-import { IdempotencyOptions } from "./idempotency.types";
+import { IdempotencyOptions, IDEMPOTENCY_OPTIONS } from "./idempotency.types";
 
 @Module({})
 export class IdempotencyModule {
@@ -17,7 +17,7 @@ export class IdempotencyModule {
           useClass: IdempotencyInterceptor,
         },
         {
-          provide: "IDEMPOTENCY_OPTIONS",
+          provide: IDEMPOTENCY_OPTIONS,
           useValue: options ?? {},
         },
       ],

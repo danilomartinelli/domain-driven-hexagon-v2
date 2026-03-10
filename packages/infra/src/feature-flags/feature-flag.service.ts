@@ -1,10 +1,10 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { FeatureFlagOptions } from "./feature-flag.types";
+import { FeatureFlagOptions, FEATURE_FLAG_OPTIONS } from "./feature-flag.types";
 
 @Injectable()
 export class FeatureFlagService {
   constructor(
-    @Inject("FEATURE_FLAG_OPTIONS")
+    @Inject(FEATURE_FLAG_OPTIONS)
     private readonly options: FeatureFlagOptions,
   ) {}
 

@@ -1,3 +1,5 @@
+export const CIRCUIT_BREAKER_OPTIONS = Symbol("CIRCUIT_BREAKER_OPTIONS");
+
 export interface CircuitBreakerOptions {
   /** Timeout in milliseconds after which a request is considered failed. Default: 10000 (10s) */
   timeout?: number;

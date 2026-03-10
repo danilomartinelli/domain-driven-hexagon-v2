@@ -9,7 +9,7 @@ import {
 import { Observable, of } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { IdempotencyRepository } from "./idempotency.repository";
-import { IdempotencyOptions } from "./idempotency.types";
+import { IdempotencyOptions, IDEMPOTENCY_OPTIONS } from "./idempotency.types";
 
 const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
@@ -20,7 +20,7 @@ export class IdempotencyInterceptor implements NestInterceptor {
 
   constructor(
     private readonly repository: IdempotencyRepository,
-    @Inject("IDEMPOTENCY_OPTIONS")
+    @Inject(IDEMPOTENCY_OPTIONS)
     options: IdempotencyOptions,
   ) {
     this.ttlMs = options.ttlMs ?? DEFAULT_TTL_MS;

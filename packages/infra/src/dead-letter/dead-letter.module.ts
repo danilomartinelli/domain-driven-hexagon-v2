@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from "@nestjs/common";
 import { DeadLetterRepository } from "./dead-letter.repository";
-import { DeadLetterService, DEAD_LETTER_OPTIONS } from "./dead-letter.service";
-import { DeadLetterOptions } from "./dead-letter.types";
+import { DeadLetterService } from "./dead-letter.service";
+import { DeadLetterOptions, DEAD_LETTER_OPTIONS } from "./dead-letter.types";
 
 @Module({})
 export class DeadLetterModule {

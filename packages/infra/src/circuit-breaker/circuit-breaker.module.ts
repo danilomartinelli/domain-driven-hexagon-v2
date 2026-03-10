@@ -1,9 +1,9 @@
 import { DynamicModule, Module } from "@nestjs/common";
+import { CircuitBreakerService } from "./circuit-breaker.service";
 import {
-  CircuitBreakerService,
+  CircuitBreakerOptions,
   CIRCUIT_BREAKER_OPTIONS,
-} from "./circuit-breaker.service";
-import { CircuitBreakerOptions } from "./circuit-breaker.types";
+} from "./circuit-breaker.types";
 
 @Module({})
 export class CircuitBreakerModule {

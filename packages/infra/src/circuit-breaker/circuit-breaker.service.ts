@@ -1,8 +1,9 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import CircuitBreaker from "opossum";
-import { CircuitBreakerOptions } from "./circuit-breaker.types";
-
-export const CIRCUIT_BREAKER_OPTIONS = "CIRCUIT_BREAKER_OPTIONS";
+import {
+  CircuitBreakerOptions,
+  CIRCUIT_BREAKER_OPTIONS,
+} from "./circuit-breaker.types";
 
 @Injectable()
 export class CircuitBreakerService {

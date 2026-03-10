@@ -5,4 +5,7 @@ export {
   idempotencyKeySchema,
   type IdempotencyKeyModel,
 } from "./idempotency.schema";
-export type { IdempotencyOptions } from "./idempotency.types";
+export {
+  IDEMPOTENCY_OPTIONS,
+  type IdempotencyOptions,
+} from "./idempotency.types";

@@ -6,4 +6,5 @@ export interface RefreshTokenRepositoryPort {
   revokeByUserId(userId: string): Promise<void>;
   revokeByTokenHash(tokenHash: string): Promise<void>;
   deleteExpired(): Promise<number>;
+  transaction<T>(handler: () => Promise<T>): Promise<T>;
 }

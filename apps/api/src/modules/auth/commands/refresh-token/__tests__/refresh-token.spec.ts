@@ -16,6 +16,7 @@ defineFeature(feature, (test) => {
     findByTokenHash: jest.Mock;
     revokeByTokenHash: jest.Mock;
     insert: jest.Mock;
+    transaction: jest.Mock;
   };
   let result: Result<any, TokenInvalidError>;
 
@@ -34,6 +35,7 @@ defineFeature(feature, (test) => {
       findByTokenHash: jest.fn(),
       revokeByTokenHash: jest.fn().mockResolvedValue(undefined),
       insert: jest.fn().mockResolvedValue(undefined),
+      transaction: jest.fn((handler: () => Promise<any>) => handler()),
     };
     service = new RefreshTokenService(
       mockUserRepo as any,

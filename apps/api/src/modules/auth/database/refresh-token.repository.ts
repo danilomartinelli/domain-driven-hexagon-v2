@@ -63,4 +63,10 @@ export class RefreshTokenRepository implements RefreshTokenRepositoryPort {
     `);
     return result.rowCount;
   }
+
+  async transaction<T>(handler: () => Promise<T>): Promise<T> {
+    return this.pool.transaction(async () => {
+      return handler();
+    });
+  }
 }

@@ -39,9 +39,6 @@ export class RefreshTokenService {
       return err(new TokenInvalidError());
     }
 
-    // Revoke old token
-    await this.refreshTokenRepo.revokeByTokenHash(tokenHash);
-
     // Generate new tokens
     const props = user.getProps();
     const accessToken = this.jwtService.sign({
@@ -56,14 +53,18 @@ export class RefreshTokenService {
       .digest('hex');
     const now = new Date();
 
-    await this.refreshTokenRepo.insert({
-      id: randomUUID(),
-      createdAt: now,
-      updatedAt: now,
-      userId: existingToken.userId,
-      tokenHash: newTokenHash,
-      expiresAt: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000), // 7 days
-      revokedAt: null,
+    // Revoke old token and insert new one atomically to prevent replay attacks
+    await this.refreshTokenRepo.transaction(async () => {
+      await this.refreshTokenRepo.revokeByTokenHash(tokenHash);
+      await this.refreshTokenRepo.insert({
+        id: randomUUID(),
+        createdAt: now,
+        updatedAt: now,
+        userId: existingToken.userId,
+        tokenHash: newTokenHash,
+        expiresAt: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000), // 7 days
+        revokedAt: null,
+      });
     });
 
     return ok({

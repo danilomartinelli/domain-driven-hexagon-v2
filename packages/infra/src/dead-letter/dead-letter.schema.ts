@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const failedEventSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   eventName: z.string(),

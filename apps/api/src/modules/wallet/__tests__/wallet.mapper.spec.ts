@@ -3,16 +3,19 @@ import { WalletEntity } from '../domain/wallet.entity';
 import { WalletModel } from '../database/wallet.schema';
 import { WalletResponseDto } from '../dtos/wallet.response.dto';
 
+const TEST_USER_ID = '660e8400-e29b-41d4-a716-446655440001';
+const TEST_WALLET_ID = '550e8400-e29b-41d4-a716-446655440000';
+
 describe('WalletMapper', () => {
   const mapper = new WalletMapper();
 
   describe('toPersistence', () => {
     it('converts entity to database model', () => {
-      const wallet = WalletEntity.create({ userId: 'user-1' });
+      const wallet = WalletEntity.create({ userId: TEST_USER_ID });
       const model = mapper.toPersistence(wallet);
 
       expect(model.id).toBe(wallet.id);
-      expect(model.userId).toBe('user-1');
+      expect(model.userId).toBe(TEST_USER_ID);
       expect(model.balance).toBe(0);
       expect(model.createdAt).toBeInstanceOf(Date);
       expect(model.updatedAt).toBeInstanceOf(Date);
@@ -23,30 +26,30 @@ describe('WalletMapper', () => {
     it('reconstructs entity from database model', () => {
       const now = new Date();
       const model: WalletModel = {
-        id: 'wallet-123',
+        id: TEST_WALLET_ID,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
-        userId: 'user-1',
+        userId: TEST_USER_ID,
         balance: 500,
       };
 
       const entity = mapper.toDomain(model);
       const props = entity.getProps();
 
-      expect(entity.id).toBe('wallet-123');
-      expect(props.userId).toBe('user-1');
+      expect(entity.id).toBe(TEST_WALLET_ID);
+      expect(props.userId).toBe(TEST_USER_ID);
       expect(props.balance).toBe(500);
     });
 
     it('reconstructed entity has no pending domain events', () => {
       const now = new Date();
       const model: WalletModel = {
-        id: 'wallet-123',
+        id: TEST_WALLET_ID,
         createdAt: now,
         updatedAt: now,
         deletedAt: null,
-        userId: 'user-1',
+        userId: TEST_USER_ID,
         balance: 0,
       };
 
@@ -58,22 +61,22 @@ describe('WalletMapper', () => {
   describe('toResponse', () => {
     it('maps entity to response DTO with whitelisted properties', () => {
       const entity = new WalletEntity({
-        id: 'wallet-id',
+        id: TEST_WALLET_ID,
         createdAt: new Date('2024-01-01'),
         updatedAt: new Date('2024-01-02'),
-        props: { userId: 'user-id', balance: 500 },
+        props: { userId: TEST_USER_ID, balance: 500 },
       });
       const response = mapper.toResponse(entity);
       expect(response).toBeInstanceOf(WalletResponseDto);
-      expect(response.id).toBe('wallet-id');
-      expect(response.userId).toBe('user-id');
+      expect(response.id).toBe(TEST_WALLET_ID);
+      expect(response.userId).toBe(TEST_USER_ID);
       expect(response.balance).toBe(500);
     });
   });
 
   describe('round-trip', () => {
     it('entity → persistence → domain preserves all data', () => {
-      const original = WalletEntity.create({ userId: 'user-1' });
+      const original = WalletEntity.create({ userId: TEST_USER_ID });
       const model = mapper.toPersistence(original);
       const restored = mapper.toDomain(model);
 

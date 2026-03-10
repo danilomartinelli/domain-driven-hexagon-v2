@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const webhookSubscriptionSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   url: z.string(),
@@ -17,9 +17,9 @@ export type WebhookSubscriptionModel = z.infer<
 >;
 
 export const webhookDeliverySchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   createdAt: z.coerce.date(),
-  subscriptionId: z.string(),
+  subscriptionId: z.uuid(),
   eventName: z.string(),
   payload: z.unknown(),
   status: z.string(),

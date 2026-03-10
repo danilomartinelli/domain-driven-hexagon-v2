@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const outboxSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   createdAt: z.coerce.date(),
   eventName: z.string(),
   payload: z.unknown(),

@@ -20,6 +20,8 @@ export class UserRepository
 
   protected schema = userSchema;
 
+  protected softDeleteEnabled = true;
+
   constructor(
     @InjectPool()
     pool: DatabasePool,

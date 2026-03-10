@@ -6,6 +6,7 @@ export interface UserProps {
   email: string;
   address: Address;
   passwordHash: string;
+  deletedAt?: Date | null;
 }
 
 // Properties that are needed for a user creation

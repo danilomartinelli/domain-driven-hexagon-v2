@@ -9,3 +9,5 @@ export * from "./scheduler";
 export * from "./outbox";
 export * from "./event-bus";
 export * from "./cache";
+export * from "./feature-flags";
+export * from "./audit";

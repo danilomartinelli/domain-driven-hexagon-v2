@@ -44,6 +44,7 @@ export class FindUsersQueryHandler {
          SELECT *
          FROM users
          WHERE
+           "deletedAt" IS NULL AND
            ${query.country ? sql.fragment`country = ${query.country}` : true} AND
            ${query.street ? sql.fragment`street = ${query.street}` : true} AND
            ${query.postalCode ? sql.fragment`"postalCode" = ${query.postalCode}` : true}

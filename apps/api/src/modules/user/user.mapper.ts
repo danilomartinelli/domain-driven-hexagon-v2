@@ -24,6 +24,7 @@ export class UserMapper implements Mapper<
       id: copy.id,
       createdAt: copy.createdAt,
       updatedAt: copy.updatedAt,
+      deletedAt: copy.deletedAt ?? null,
       email: copy.email,
       country: copy.address.country,
       postalCode: copy.address.postalCode,
@@ -48,6 +49,7 @@ export class UserMapper implements Mapper<
           country: record.country,
         }),
         passwordHash: record.passwordHash,
+        deletedAt: record.deletedAt ? new Date(record.deletedAt) : null,
       },
     });
     return entity;

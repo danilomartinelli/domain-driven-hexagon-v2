@@ -16,6 +16,7 @@ export class WalletMapper implements Mapper<
       id: copy.id,
       createdAt: copy.createdAt,
       updatedAt: copy.updatedAt,
+      deletedAt: copy.deletedAt ?? null,
       userId: copy.userId,
       balance: copy.balance,
     };
@@ -30,6 +31,7 @@ export class WalletMapper implements Mapper<
       props: {
         userId: record.userId,
         balance: record.balance,
+        deletedAt: record.deletedAt ? new Date(record.deletedAt) : null,
       },
     });
     return entity;

@@ -10,6 +10,7 @@ export const userSchema = z.object({
   id: z.uuid(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
+  deletedAt: z.coerce.date().nullable(),
   email: z.email(),
   country: z.string().min(1).max(255),
   postalCode: z.string().min(1).max(20),

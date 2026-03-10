@@ -5,6 +5,7 @@ describe('walletSchema (Zod)', () => {
     id: '550e8400-e29b-41d4-a716-446655440000',
     createdAt: new Date('2024-01-01'),
     updatedAt: new Date('2024-01-01'),
+    deletedAt: null,
     userId: 'user-123',
     balance: 100,
   };

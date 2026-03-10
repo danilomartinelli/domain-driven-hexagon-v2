@@ -20,6 +20,8 @@ import {
   OutboxModule,
   EventBusModule,
   CacheModule,
+  FeatureFlagModule,
+  AuditModule,
 } from '@repo/infra';
 import { AuthModule } from '@src/infrastructure/auth/auth.module';
 import { GqlAuthGuard } from '@src/infrastructure/auth/gql-auth.guard';
@@ -112,6 +114,8 @@ const guards = [
       redisHost: get('REDIS_HOST').default('localhost').asString(),
       redisPort: get('REDIS_PORT').default(6379).asIntPositive(),
     }),
+    FeatureFlagModule.forRoot(),
+    AuditModule.forRoot(),
     CqrsModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

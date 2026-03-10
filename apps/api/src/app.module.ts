@@ -8,7 +8,14 @@ import { AuthDomainModule } from '@modules/auth/auth.module';
 import { RequestContextModule } from 'nestjs-request-context';
 import { APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
 import { ContextInterceptor, ExceptionInterceptor } from '@repo/core';
-import { SecurityModule, LoggingModule, HealthModule } from '@repo/infra';
+import {
+  SecurityModule,
+  LoggingModule,
+  HealthModule,
+  IdempotencyModule,
+  CircuitBreakerModule,
+  DeadLetterModule,
+} from '@repo/infra';
 import { AuthModule } from '@src/infrastructure/auth/auth.module';
 import { GqlAuthGuard } from '@src/infrastructure/auth/gql-auth.guard';
 import { RolesGuard } from '@src/infrastructure/auth/roles.guard';
@@ -81,6 +88,9 @@ const guards = [
       isGlobal: true,
     }),
     HealthModule.forRoot(SLONIK_POOL, { version: '2.0.0' }),
+    IdempotencyModule.forRoot(),
+    CircuitBreakerModule.forRoot(),
+    DeadLetterModule.forRoot(),
     CqrsModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

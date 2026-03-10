@@ -41,13 +41,13 @@ import { get } from 'env-var';
 
 const armor = new ApolloArmor({
   maxDepth: {
-    n: parseInt(process.env.GQL_MAX_DEPTH || '10', 10),
+    n: get('GQL_MAX_DEPTH').default(10).asIntPositive(),
   },
   costLimit: {
-    maxCost: parseInt(process.env.GQL_MAX_COMPLEXITY || '1000', 10),
+    maxCost: get('GQL_MAX_COMPLEXITY').default(1000).asIntPositive(),
   },
   maxAliases: {
-    n: parseInt(process.env.GQL_MAX_ALIASES || '15', 10),
+    n: get('GQL_MAX_ALIASES').default(15).asIntPositive(),
   },
   blockFieldSuggestion: {
     enabled: true,

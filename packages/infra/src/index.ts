@@ -3,3 +3,4 @@ export * from "./logging";
 export * from "./health";
 export * from "./idempotency";
 export * from "./circuit-breaker";
+export * from "./dead-letter";

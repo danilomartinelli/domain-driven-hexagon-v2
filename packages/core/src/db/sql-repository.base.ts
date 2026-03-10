@@ -205,7 +205,6 @@ export abstract class SqlRepositoryBase<
    * a query: INSERT INTO "table" (name, email) VALUES ($1, $2)
    */
   protected generateInsertQuery(models: DbModel[]): QuerySqlToken {
-    // TODO: generate query from an entire array to insert multiple records at once
     const entries = Object.entries(models[0]);
     const values: ValueExpression[] = [];
     const propertyNames: IdentifierSqlToken[] = [];

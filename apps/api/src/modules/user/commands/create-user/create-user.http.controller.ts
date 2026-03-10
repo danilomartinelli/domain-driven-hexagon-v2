@@ -13,11 +13,13 @@ import { CreateUserCommand } from './create-user.command';
 import { CreateUserRequestDto } from './create-user.request.dto';
 import { UserAlreadyExistsError } from '@modules/user/domain/user.errors';
 import { IdResponse, AggregateID, ApiErrorResponse } from '@repo/core';
+import { Public } from '@src/infrastructure/auth/public.decorator';
 
 @Controller(routesV1.version)
 export class CreateUserHttpController {
   constructor(private readonly commandBus: CommandBus) {}
 
+  @Public()
   @ApiOperation({ summary: 'Create a user' })
   @ApiResponse({
     status: HttpStatus.OK,

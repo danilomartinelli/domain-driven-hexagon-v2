@@ -26,6 +26,7 @@ describe('WalletMapper', () => {
         id: 'wallet-123',
         createdAt: now,
         updatedAt: now,
+        deletedAt: null,
         userId: 'user-1',
         balance: 500,
       };
@@ -44,6 +45,7 @@ describe('WalletMapper', () => {
         id: 'wallet-123',
         createdAt: now,
         updatedAt: now,
+        deletedAt: null,
         userId: 'user-1',
         balance: 0,
       };

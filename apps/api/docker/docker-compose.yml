@@ -13,7 +13,7 @@ services:
     networks:
       - postgres
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d ddh"]
+      test: ['CMD-SHELL', 'pg_isready -U user -d ddh']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -29,6 +29,19 @@ services:
         condition: service_healthy
     networks:
       - postgres
+
+  redis:
+    container_name: redis-container
+    image: redis:7-alpine
+    ports:
+      - '6379:6379'
+    networks:
+      - postgres
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   pgadmin:
     container_name: pgadmin_container

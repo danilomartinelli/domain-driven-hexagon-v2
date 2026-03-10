@@ -5,11 +5,13 @@ describe('userSchema (Zod)', () => {
     id: '550e8400-e29b-41d4-a716-446655440000',
     createdAt: new Date('2024-01-01'),
     updatedAt: new Date('2024-01-01'),
+    deletedAt: null,
     email: 'test@example.com',
     country: 'England',
     postalCode: '28566',
     street: 'Grand Avenue',
     role: 'guest',
+    passwordHash: '$argon2id$v=19$m=65536,t=3,p=4$dGVzdHNhbHQ$hashedvalue',
   };
 
   it('accepts valid user data', () => {

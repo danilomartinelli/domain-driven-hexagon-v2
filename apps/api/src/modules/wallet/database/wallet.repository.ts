@@ -17,6 +17,8 @@ export class WalletRepository
 
   protected schema = walletSchema;
 
+  protected softDeleteEnabled = true;
+
   constructor(
     @InjectPool()
     pool: DatabasePool,

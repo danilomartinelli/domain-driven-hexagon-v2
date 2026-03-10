@@ -6,8 +6,11 @@ import { ValidationPipe } from '@nestjs/common';
 import { Logger } from 'nestjs-pino';
 import { get } from 'env-var';
 import { bootstrapSecurity } from '@repo/infra';
+import { validateEnv } from './configs/env.config';
 
 async function bootstrap() {
+  validateEnv();
+
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
 
   // Structured logging

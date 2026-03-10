@@ -5,12 +5,15 @@ export interface UserProps {
   role: UserRoles;
   email: string;
   address: Address;
+  passwordHash: string;
+  deletedAt?: Date | null;
 }
 
 // Properties that are needed for a user creation
 export interface CreateUserProps {
   email: string;
   address: Address;
+  passwordHash: string;
 }
 
 // Properties used for updating a user address

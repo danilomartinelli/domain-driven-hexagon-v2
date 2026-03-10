@@ -24,11 +24,13 @@ export class UserMapper implements Mapper<
       id: copy.id,
       createdAt: copy.createdAt,
       updatedAt: copy.updatedAt,
+      deletedAt: copy.deletedAt ?? null,
       email: copy.email,
       country: copy.address.country,
       postalCode: copy.address.postalCode,
       street: copy.address.street,
       role: copy.role,
+      passwordHash: copy.passwordHash,
     };
     return userSchema.parse(record);
   }
@@ -46,6 +48,8 @@ export class UserMapper implements Mapper<
           postalCode: record.postalCode,
           country: record.country,
         }),
+        passwordHash: record.passwordHash,
+        deletedAt: record.deletedAt ? new Date(record.deletedAt) : null,
       },
     });
     return entity;

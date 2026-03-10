@@ -4,11 +4,31 @@ import { SlonikModule, SLONIK_POOL } from '@danilomartinelli/nestjs-slonik';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { UserModule } from '@modules/user/user.module';
 import { WalletModule } from '@modules/wallet/wallet.module';
+import { AuthDomainModule } from '@modules/auth/auth.module';
 import { RequestContextModule } from 'nestjs-request-context';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
 import { ContextInterceptor, ExceptionInterceptor } from '@repo/core';
-import { SecurityModule, LoggingModule, HealthModule } from '@repo/infra';
+import {
+  SecurityModule,
+  LoggingModule,
+  HealthModule,
+  IdempotencyModule,
+  CircuitBreakerModule,
+  DeadLetterModule,
+  QueueModule,
+  SchedulerModule,
+  OutboxModule,
+  EventBusModule,
+  CacheModule,
+  FeatureFlagModule,
+  AuditModule,
+  WebhookModule,
+  StorageModule,
+  NotificationModule,
+} from '@repo/infra';
 import { AuthModule } from '@src/infrastructure/auth/auth.module';
+import { GqlAuthGuard } from '@src/infrastructure/auth/gql-auth.guard';
+import { RolesGuard } from '@src/infrastructure/auth/roles.guard';
 import { postgresConnectionUri } from './configs/database.config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -47,6 +67,17 @@ const interceptors = [
   },
 ];
 
+const guards = [
+  {
+    provide: APP_GUARD,
+    useClass: GqlAuthGuard,
+  },
+  {
+    provide: APP_GUARD,
+    useClass: RolesGuard,
+  },
+];
+
 @Module({
   imports: [
     // Infrastructure
@@ -67,6 +98,45 @@ const interceptors = [
       isGlobal: true,
     }),
     HealthModule.forRoot(SLONIK_POOL, { version: '2.0.0' }),
+    IdempotencyModule.forRoot(),
+    CircuitBreakerModule.forRoot(),
+    DeadLetterModule.forRoot(),
+    QueueModule.forRoot({
+      redisHost: get('REDIS_HOST').default('localhost').asString(),
+      redisPort: get('REDIS_PORT').default(6379).asIntPositive(),
+      redisPassword: get('REDIS_PASSWORD').default('').asString(),
+    }),
+    SchedulerModule.forRoot(),
+    OutboxModule.forRoot(),
+    EventBusModule.forRoot(),
+    CacheModule.forRoot({
+      driver: get('CACHE_DRIVER').default('memory').asString() as
+        | 'memory'
+        | 'redis',
+      defaultTtlSeconds: get('CACHE_DEFAULT_TTL').default(300).asIntPositive(),
+      redisHost: get('REDIS_HOST').default('localhost').asString(),
+      redisPort: get('REDIS_PORT').default(6379).asIntPositive(),
+    }),
+    FeatureFlagModule.forRoot(),
+    AuditModule.forRoot(),
+    WebhookModule.forRoot({
+      maxRetries: 3,
+      retryDelayMs: 5000,
+      timeoutMs: 10000,
+    }),
+    StorageModule.forRoot({
+      driver: get('STORAGE_DRIVER').default('local').asString() as
+        | 'local'
+        | 's3',
+      localPath: get('STORAGE_LOCAL_PATH').default('./uploads').asString(),
+      s3Bucket: get('STORAGE_S3_BUCKET').default('').asString() || undefined,
+      s3Region: get('STORAGE_S3_REGION').default('').asString() || undefined,
+    }),
+    NotificationModule.forRoot({
+      driver: get('NOTIFICATION_DRIVER').default('console').asString() as
+        | 'console'
+        | 'email',
+    }),
     CqrsModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -82,8 +152,9 @@ const interceptors = [
     // Modules
     UserModule,
     WalletModule,
+    AuthDomainModule,
   ],
   controllers: [],
-  providers: [...interceptors],
+  providers: [...interceptors, ...guards],
 })
 export class AppModule {}

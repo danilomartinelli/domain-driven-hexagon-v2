@@ -1,10 +1,10 @@
-import { RequestContextService } from '../application/context/AppRequestContext';
-import { AggregateRoot, PaginatedQueryParams, Paginated } from '../ddd';
-import { Mapper } from '../ddd';
-import { RepositoryPort } from '../ddd';
-import { ConflictException } from '../exceptions';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import type { StandardSchemaV1 } from '@standard-schema/spec';
+import { RequestContextService } from "../application/context/AppRequestContext";
+import { AggregateRoot, PaginatedQueryParams, Paginated } from "../ddd";
+import { Mapper } from "../ddd";
+import { RepositoryPort } from "../ddd";
+import { ConflictException } from "../exceptions";
+import { EventEmitter2 } from "@nestjs/event-emitter";
+import type { StandardSchemaV1 } from "@standard-schema/spec";
 import {
   DatabasePool,
   DatabaseTransactionConnection,
@@ -15,19 +15,25 @@ import {
   sql,
   UniqueIntegrityConstraintViolationError,
   ValueExpression,
-} from 'slonik';
-import { ZodObject } from 'zod';
-import { LoggerPort } from '../ports/logger.port';
-import { ObjectLiteral } from '../types';
+} from "slonik";
+import { ZodObject } from "zod";
+import { LoggerPort } from "../ports/logger.port";
+import { ObjectLiteral } from "../types";
 
 export abstract class SqlRepositoryBase<
   Aggregate extends AggregateRoot<any>,
   DbModel extends ObjectLiteral,
-> implements RepositoryPort<Aggregate>
-{
+> implements RepositoryPort<Aggregate> {
   protected abstract tableName: string;
 
   protected abstract schema: ZodObject<any>;
+
+  /**
+   * When true, findOneById, findAll, and findAllPaginated
+   * exclude rows where "deletedAt" IS NOT NULL.
+   * Subclasses opt in by overriding: `protected softDeleteEnabled = true`
+   */
+  protected softDeleteEnabled = false;
 
   protected constructor(
     private readonly _pool: DatabasePool,
@@ -36,7 +42,22 @@ export abstract class SqlRepositoryBase<
     protected readonly logger: LoggerPort,
   ) {}
 
+  private get softDeleteFilter() {
+    return this.softDeleteEnabled
+      ? sql.fragment`AND "deletedAt" IS NULL`
+      : sql.fragment``;
+  }
+
   async findOneById(id: string): Promise<Aggregate | undefined> {
+    const query = sql.type(this.schema)`SELECT * FROM ${sql.identifier([
+      this.tableName,
+    ])} WHERE id = ${id} ${this.softDeleteFilter}`;
+
+    const result = await this.pool.query(query);
+    return result.rows[0] ? this.mapper.toDomain(result.rows[0]) : undefined;
+  }
+
+  async findOneByIdWithDeleted(id: string): Promise<Aggregate | undefined> {
     const query = sql.type(this.schema)`SELECT * FROM ${sql.identifier([
       this.tableName,
     ])} WHERE id = ${id}`;
@@ -46,6 +67,16 @@ export abstract class SqlRepositoryBase<
   }
 
   async findAll(): Promise<Aggregate[]> {
+    const query = sql.type(this.schema)`SELECT * FROM ${sql.identifier([
+      this.tableName,
+    ])} WHERE 1=1 ${this.softDeleteFilter}`;
+
+    const result = await this.pool.query(query);
+
+    return result.rows.map(this.mapper.toDomain);
+  }
+
+  async findAllWithDeleted(): Promise<Aggregate[]> {
     const query = sql.type(this.schema)`SELECT * FROM ${sql.identifier([
       this.tableName,
     ])}`;
@@ -60,6 +91,7 @@ export abstract class SqlRepositoryBase<
   ): Promise<Paginated<Aggregate>> {
     const query = sql.type(this.schema)`
     SELECT * FROM ${sql.identifier([this.tableName])}
+    WHERE 1=1 ${this.softDeleteFilter}
     LIMIT ${params.limit}
     OFFSET ${params.offset}
     `;
@@ -73,6 +105,21 @@ export abstract class SqlRepositoryBase<
       limit: params.limit,
       page: params.page,
     });
+  }
+
+  async softDelete(entity: Aggregate): Promise<void> {
+    entity.validate();
+    const query = sql.type(this.schema)`UPDATE ${sql.identifier([
+      this.tableName,
+    ])} SET "deletedAt" = NOW() WHERE id = ${entity.id}`;
+
+    this.logger.debug(
+      `[${RequestContextService.getRequestId()}] soft-deleting entity ${
+        entity.id
+      } from ${this.tableName}`,
+    );
+
+    await this.writeQuery(query, entity);
   }
 
   async delete(entity: Aggregate): Promise<boolean> {
@@ -114,7 +161,7 @@ export abstract class SqlRepositoryBase<
         this.logger.debug(
           `[${RequestContextService.getRequestId()}] ${detail}`,
         );
-        throw new ConflictException('Record already exists', error);
+        throw new ConflictException("Record already exists", error);
       }
       throw error;
     }
@@ -157,9 +204,7 @@ export abstract class SqlRepositoryBase<
    * Passing object with { name: string, email: string } will generate
    * a query: INSERT INTO "table" (name, email) VALUES ($1, $2)
    */
-  protected generateInsertQuery(
-    models: DbModel[],
-  ): QuerySqlToken {
+  protected generateInsertQuery(models: DbModel[]): QuerySqlToken {
     // TODO: generate query from an entire array to insert multiple records at once
     const entries = Object.entries(models[0]);
     const values: ValueExpression[] = [];

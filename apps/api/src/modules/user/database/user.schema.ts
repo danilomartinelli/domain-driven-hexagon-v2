@@ -10,11 +10,13 @@ export const userSchema = z.object({
   id: z.uuid(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
+  deletedAt: z.coerce.date().nullable(),
   email: z.email(),
   country: z.string().min(1).max(255),
   postalCode: z.string().min(1).max(20),
   street: z.string().min(1).max(255),
   role: z.enum(UserRoles),
+  passwordHash: z.string(),
 });
 
 export type UserModel = z.infer<typeof userSchema>;

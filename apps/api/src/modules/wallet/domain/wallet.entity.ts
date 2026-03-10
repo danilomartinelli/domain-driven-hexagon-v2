@@ -15,6 +15,7 @@ export interface CreateWalletProps {
 
 export interface WalletProps extends CreateWalletProps {
   balance: number;
+  deletedAt?: Date | null;
 }
 
 export class WalletEntity extends AggregateRoot<WalletProps> {
